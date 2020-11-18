@@ -1,0 +1,931 @@
+%\documentclass[11pt,letterpaper]{article}
+\documentclass[oneside,11pt]{amsart}
+
+%\usepackage{a4wide}
+%\usepackage{epsfig}
+%\usepackage{psfig}
+\usepackage{graphicx}
+\usepackage{natbib,latexsym,url,enumitem,pdfpages}
+\usepackage{color}
+\usepackage{wrapfig}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{gensymb}
+\usepackage[belowskip=-10pt,aboveskip=0pt]{caption}
+
+\captionsetup{
+    justification=justified,
+    margin=0pt,
+    font=small}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Allow for the okina; thanks to:
+% https://tex.stackexchange.com/questions/424535/how-to-type-a-proper-hawai%CA%BBian-%CA%BBokina
+
+\usepackage[utf8]{inputenc}
+\usepackage{newunicodechar}
+%\usepackage{libertine}
+
+\DeclareRobustCommand{\okina}{%
+  \raisebox{\dimexpr\fontcharht\font`A-\height}{%
+    \scalebox{0.8}{`}%
+  }%
+}
+\newunicodechar{ʻ}{\okina}
+\newcommand{\hawaii}{Hawaiʻi}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\arcsec}{\mbox{$^{\prime\prime}$}}
+\newcommand{\arcmin}{\mbox{$^{\prime}$}}
+\newcommand{\gt}{$>$}
+\newcommand{\lam}{\lambda}
+
+% Some fancy commenting
+\definecolor{todo}{RGB}{200,0,0}
+\newcommand{\note}[2][todo]{{\color{#1}[[{\bf #2}]]}}
+
+% Challenge counter
+\newcounter{chalno}
+\newcommand{\chal}[1]{\refstepcounter{chalno}\label{#1}}
+
+% User commands
+\input{journaldefs}
+
+\DeclareRobustCommand{\gtrsim}{%
+\mathrel{\hskip-.5em\begin{array}{c}>\\[-8pt]\sim\end{array}\hskip-.5em}}
+\DeclareRobustCommand{\lesssim}{%
+\mathrel{\hskip-.5em\begin{array}{c}<\\[-8pt]\sim\end{array}\hskip-.5em}}
+
+
+\pretolerance=10000
+\textwidth=6.4in
+\textheight=8.95in
+\voffset = 0.in
+%\voffset = -0.3in  % For my printer
+\topmargin=0.0in
+\headheight=0.00in
+\hoffset = 0.0in
+%\hoffset = 0.33in  %  For my printer
+\headsep=0.00in
+\oddsidemargin=0in
+\evensidemargin=0in
+\parindent=2em
+\parskip=0.2ex
+ 
+\renewcommand{\baselinestretch}{1.03}
+
+\special{papersize=8.5in,11in}
+
+\newcommand{\markus}{\textcolor{green}}
+
+\setlength{\parskip}{0.6 ex plus 0.4ex minus 0.2ex} \flushbottom
+\pagestyle{plain} 
+
+\begin{document}
+% \thispagestyle{empty}
+
+\pagenumbering{arabic}
+
+\vspace*{-1.5cm}
+
+\centerline{\textsf {\Large The FOBOS Spectroscopic Facility for Keck: Project Description}}
+
+% Check this
+
+% \centerline{\textsf {\large Project Summary}}
+
+% \bigskip
+% \noindent {\bf Overview:} In this \emph{Design}
+% submission, we propose to dramatically enhance the power of upcoming
+% panoramic deep-imaging from the Large Synoptic Survey Telescope (LSST),
+% Euclid and the Wide-Field Infrared Survey Telescope (WFIRST) in order to
+% address key questions in the areas of dark energy, the galaxy ecosystem
+% at $z\sim2$, and the assembly history of the Milky Way and Local Group
+% Galaxies.  We will design the astrostatistics, instrumentation, and
+% software solutions required over the next decade to provide optimized
+% spectroscopic training sets that can unlock \emph{physical
+% information} (e.g., redshifts, galaxy star formation histories, stellar
+% metallicities) from deep photometry alone.  Applying machine learning to
+% a set of ambitious Data Science Challenges using simulated data, we will define
+% requirements on future spectroscopic training sets.  These requirements
+% will guide the preliminary design of FOBOS, a powerful new spectrograph
+% to deploy in 2026 on the 10 m Keck II Telescope.  FOBOS will provide
+% publicly-available deep, high-multiplex spectroscopy with high target
+% sampling and flexibility uniquely matched to the ``Big Data'' training
+% problem.
+
+% \bigskip
+% \noindent {\bf Intellectual Merit:} High-multiplex and deep
+% spectroscopic followup of LSST and other panoramic deep-imaging surveys
+% is a widely recognized necessity.  Reports in 2015 and 2016 by the
+% National Research Council and National Optical Astronomical Observatory
+% specifically recommend that the NSF support construction of required
+% spectroscopic facilities because none currently exist or are planned at
+% U.S.\ observatories.  FOBOS satisfies these spectroscopic needs at
+% relatively low cost by utilizing the existing 10 m Keck II Telescope, a
+% highly-successful U.S.-led large telescope.  Even with the powerful capabilities of FOBOS deployed, the astronomical
+% community recognizes the need for cutting-edge data science techniques to ``train''
+% vast photometric surveys with what will necessarily be more limited
+% spectroscopy.  Success in the training methodologies we propose here
+% will make photometric redshifts more precise, improving the LSST dark
+% energy figure-of-merit by 40\%.  They will enable a comprehensive
+% understanding of galaxies and their gaseous environments at $z\sim2$,
+% and they will reveal fossilized structures in the Milky Way, M31, and
+% other Local Group galaxies through chemical signatures inferred for
+% millions of stars.
+
+% \bigskip
+% \noindent {\bf Broader Impacts:} We will build on the success of several ongoing programs at UC Santa Cruz (UCSC) that
+% connect high school and college students, especially those from underrepresented minorities, to active research groups.
+% Studies show that such connections increase STEM retention.  The flagship program is Akamai, run by UCSC's Institute
+% for Scientist and Engineer Educators (ISEE), which advances college students from Hawai'i into the STEM workforce.  Our
+% proposal supports two Akamai interns to work at UCSC on instrument simulation and design as well as machine learning
+% for spectroscopic analysis.  We will also engage a cohort of graduate students in ISEE's Professional Development
+% Program which builds teaching skills as students develop an inquiry-based activity. The graduate students will then
+% conduct this activity, centered on FOBOS instrument development, with 25 largely underrepresented community college
+% students from UCSC's Lamat program.  Finally, we will take advantage of a successful hands-on research course and a
+% long-running summer internship program to introduce data simulation and machine-learning techniques to 1st-year
+% undergraduate and senior high school students.
+
+% \clearpage
+
+
+\setcounter{page}{1}
+
+\centerline{{\it MSIP proposal category: ``Development Investments''}}
+
+\section{Introduction}
+
+Led by the Vera C.~Rubin Observatory Legacy Survey of Space and Time (LSST)\footnote{For the first ten years of operation, Vera C.~Rubin Observatory will perform the Rubin Observatory Legacy Survey of Space and Time (LSST). The National Science Foundation (NSF) and the US Department of Energy (DOE) are joint partners in the Rubin Observatory Project and Operations.} and NASA-supported missions like Euclid\footnote{Euclid is led by the European Space Agency with significant NASA involvement and will launch in 2022. Its primary mission is a 15,000 deg$^2$ imaging and grism survey in optical and near-IR wavebands.} and WFIRST,\footnote{The Wide Field Infrared Survey Telescope (WFIRST) is expected to launch in the mid 2020's.} astronomy is entering a new era of unprecedented deep-imaging campaigns that will survey huge volumes of the universe. From the emergence of the earliest galaxies from a baryonic ``primordial soup,'' through the epoch of cosmic expansion, to the evolved structure of present-day galaxies in our own Local Group and the promise of time-domain discoveries, images from these surveys will provide unprecedented insights into key epochs of cosmic history.  As such, these surveys were ranked as top priorities in the Astro2010 decadal survey, resulting in a significant investment of U.S.\ funding agencies in their success.
+
+%-----------------------------------------------------------------------
+%-----------------------------------------------------------------------
+% John Wilson on Section 1.2.1, first para:  "reading this section made me wonder how Rubin, Euclid, and WFIRST envisioned that spectroscopic training of photo-z's would occur.  Did they envision the capability, particularly for the faintest targets, would somehow develop organically at one of the large telescopes?  If it has a bearing on this justification, you might mention what they expected."  Should we bring back some/all of this FROM THE MSRI?  Put it here or in Section 3?
+
+%The need for spectroscopic follow-up in the LSST era was made clear in the National Research Council's 2015 report, ``Optimizing the U.S. Ground-Based Optical and Infrared Astronomy System'' \citep{NAP21722}:
+%%
+%\noindent\begin{center}\mbox{\parbox{0.95\linewidth}{
+%%
+%The National Science Foundation should support the development of a wide-field, highly multiplexed spectroscopic capability on a medium- or large-aperture telescope in the Southern Hemisphere to enable a wide variety of science, including follow-up spectroscopy of Large Synoptic Survey Telescope targets. Examples of enabled science are studies of cosmology, galaxy evolution, quasars, and the Milky Way.
+%%
+%}}\end{center}
+%
+%Workshops organized by the National Optical Astronomy Observatory (NOAO) in 2013 and 2016, the latter at the NSF's request, reported specific spectroscopic needs for LSST follow-up in all science areas.  In particular, the 2016 report notes that a critical resource in need of prompt development is to ``Develop or obtain access to a highly multiplexed, wide-field optical multi-object spectroscopic capability on an 8m-class telescope.''  Based on these recommendations, we propose the FOBOS instrument coupled with a suite of data-driven tools to address the spectroscopic requirements of LSST and other photometric surveys at a final cost 20 times less than a new Southern Hemisphere facility. Located in Hawaii, FOBOS can access more than 70\% of the LSST footprint, more than adequate for building powerful spectroscopic training sets.
+%-----------------------------------------------------------------------
+%-----------------------------------------------------------------------
+
+Even so, the success of the Sloan Digital Sky Survey (SDSS) and anticipation of the Dark Energy Spectroscopic Instrument (DESI) has made clear the scientific value of coupling panoramic imaging with intensive spectroscopic follow-up, both in terms of new discoveries and in dramatically improving our statistical understanding of the cosmos. But upcoming deep-imaging surveys present a challenge: At the end of the next decade, these facilities will deliver photometric data across vast areas, 1,000 times deeper than SDSS.  Yet \textbf{no current U.S.~facility is capable of obtaining spectroscopic follow-up at these depths} at the level required to capitalize on the $\approx$\$4B U.S.\ investment in these projects (\S \ref{sec:landscape}). In fact, an SDSS-like spectroscopic study of 1 million galaxies at LSST depths would require 300 years of observing on the largest telescopes with current instrumentation!
+
+\begin{wrapfigure}{r}{0.48\textwidth}
+\begin{threeparttable}
+\begin{small}
+\captionof{table}{Summary of FOBOS Specifications} 
+\label{tab:specsummary} 
+\begin{tabular}{l | r}
+\hline
+Telescope                   & 10-m Keck II \\
+Patrol Field                 &    $D = 20$\arcmin{} \\
+Total Number of Fibers       & 1800 (Table \ref{tab:sampling}) \\
+Single-Fiber (MOS) Aperture  &    $D = 0.8$\arcsec{} \\
+Multi-IFU FOV (37 fibers)    &    $D = 5.6$\arcsec{} \\
+Large IFU FOV (1657 fibers)  &    $D = 37.6$\arcsec{} \\
+Spectral Range               &    0.31--1$\mu$m \\
+Spectral Resolution          &    3500 \\
+Throughput                   &    $\gtrsim$30\% \\
+Limiting Magnitude$^\dagger$  &    $r$(AB)$\sim$24.5 \\
+\hline
+\end{tabular}
+\begin{tablenotes}
+\item $^\dagger$To reach S/N$\sim$1 in a 1hr integration.
+\end{tablenotes}
+\end{small}
+\end{threeparttable}
+\end{wrapfigure}
+
+We propose to meet this challenge by undertaking a 3-year Preliminary Design of an ambitious spectroscopic facility on one of the world's largest and most productive telescopes.  FOBOS, the Fiber-Optic Broadband Optical Spectrograph, is timed to deploy on WMKO's Keck II Telescope\footnote{The W.~M.\ Keck Observatory (WMKO) operates the twin 10m Keck Telescopes.} in 2028, just as various panoramic deep-imaging surveys begin reaching their target depths.  The instrument will simultaneously collect spectra from 1800 fibers distributed among single apertures and/or integral-field units (IFUs) across a 20$^\prime$ field.  FOBOS provides deep sensitivity, with $\gtrsim$30\% instrument throughput from 0.31--1.0 $\mu$m, and a spectral resolution of $R \sim 3500$ delivered by three, bench-mounted 4-channel spectrographs (see Table~\ref{tab:specsummary}).  FOBOS will be a premier facility for follow-up of rare, faint, and transient sources; it will map galaxies and their environments from scales of pc to tens of Mpc; and it will excel at providing the \emph{deep-drilling} spectroscopic training sets required to extract maximum information from the upcoming wealth of wide-field photometry. Its innovative and flexible target-allocation system and multiplexed IFU modes provide unique capabilities for realizing major progress on fundamental goals in cosmology, galaxy formation, transient characterization, and Local-Group archaeology. FOBOS provides direct benefits to the U.S.\ community (beyond traditional Keck users) through community-led, public, key-science programs (\S \ref{sec:community}). Additional ``open-access'' to a proposed $\sim$100,000 fiber-hours per year (equivalent to 160 DEIMOS and 270 LRIS-B nights per year) will support PI-led programs from U.S.\ astronomers. Raw, reduced, and high-level data products (e.g., redshifts, line fluxes, continuum fits) will be publicly released for \emph{all} FOBOS observations and served via the Keck Observatory Archive on a science-ready platform (see Data Management Plan).  Finally, signaling its support of broad community engagement, WMKO has agreed to provide immediate open-access to all Keck instruments for 30 nights from 2021--2024, to be allocated by a national time allocation committee (TAC) should this proposal be successful.
+
+% \note{Kevin/Kyle: This paragraph is a grab-bag of FOBOS bottom-lines.  Appropriate in the introduction, but should we expand this and use it as a road-map for the proposal and cite the relevant sections here?}
+
+\section{Scientific Justification} 
+\label{sec:goals}
+
+FOBOS will be a facility-class instrument at Keck, emphasizing flexible and quickly configurable focal-plane sampling, UV sensitivity, and a stable spectral format that supports ultra-deep integrations of $\gtrsim$50 hours.  Multiple observing modes are possible, including PI-led programs, survey-level campaigns, and queue-scheduled observations.  In combination, these modes will enhance overall science return by enabling human interaction while maximizing efficiency.  FOBOS's conceptual design has been driven by four ``design-reference'' science programs centered on studies of the nature of Dark Energy (\S \ref{sec:cosmology}), the formation of galaxies (\S \ref{sec:galaxies}), the physical properties of kilonovae (\S \ref{sec:kilonovae}), and the assembly history of the Andromeda Galaxy system (\S \ref{sec:localgroup}).  Each program would advance the scientific frontier anticipated at the time of FOBOS commissioning in 2028, both in terms of direct interpretation of the observations themselves and their use in machine-learning methods that can train and deliver physical inferences for the upcoming trove of photometric samples (\S \ref{sec:ML}).
+
+To illustrate FOBOS's scientific potential, we present the science drivers and observing strategies for these design-reference programs.  Table \ref{tab:progreq} summarizes the details of each program and illustrates FOBOS's ability to interleave multiple programs with disparate scientific goals (\S \ref{sec:addsci}).  The final definition of FOBOS's design-reference programs, including detailed sample designs, scientific deliverables, and time requests, will be developed in the next phase through a community-wide competition organized jointly with NSF's NOIRLab (formerly NOAO) and WMKO.
+
+\subsection{Enhancing Dark Energy Probes via Precision Cosmic Distances}
+\label{sec:cosmology}
+
+Delineating cosmic expansion and the growth of structure in ``Stage IV'' cosmology missions like LSST, Euclid, and WFIRST requires measurements of galaxy positions and gravitational shear as a function of distance over vast cosmic volumes. For the billions of sources that will be imaged by these surveys, distances must be estimated using photometric redshifts (photo-$z$s). Inaccurate photo-$z$s can reduce the cosmological constraining power, while poorly characterized photo-$z$s can introduce significant biases in cosmological results \citep{huterer06, LSSTDESCSRD}.  Improving galaxy photo-$z$ estimates and our understanding of their uncertainties through deep, targeted spectroscopic training and calibration samples will substantially improve the cosmology results of \emph{all} of these missions and for all cosmological probes.
+
+% Among other challenges, inaccurate photo-$z$s can introduce significant errors in cosmological results \citep{huterer06}. Improving galaxy photo-$z$ estimates through deep, targeted spectroscopic training and calibration samples will substantially improve the cosmology results of \emph{all} of these missions and for all cosmological probes.
+
+LSST will provide a crucial extragalactic dataset in the late 2020s, providing deep \textit{ugrizy} optical imaging of $\sim$18,000~deg$^{2}$, while WFIRST will obtain deep near-IR imaging for $\sim$2000~deg$^{2}$, overlapping the LSST footprint. FOBOS will be well-positioned to contribute critical follow-up spectroscopy for both missions, with the ability to efficiently observe sources as far south as $-30\degree$, comprising $\sim$60\% of the current baseline LSST footprint.
+
+\begin{wrapfigure}{r}{0.5\textwidth}%\small
+\vspace{-0.2cm}
+\includegraphics[width=0.5\textwidth]{figs/fobos_cosmology_v2.pdf}
+\caption{\footnotesize Magnitude distribution of secure spec-$z$ samples in existing deep fields from, e.g., DEEP2, VVDS, VIPERS, C3R2, and zCOSMOS ({\it green}), compared with the anticipated distribution of the LSST/WFIRST weak-lensing sample derived in \citet[][{\it blue}]{hemmati18}. Ultra-deep (50hr) exposures in the FOBOS cosmology program are designed to obtain spec-$z$s for $\sim$15k faint galaxies in the hatched region, representing roughly 50\% of the weak-lensing sample of these missions and weakly constrained by current spec-$z$ samples. The FOBOS cosmology program would operate over 12 independent regions to mitigate cosmic variance, employing a careful selection to explore the full color-magnitude parameter space efficiently, as in \cite{masters15}. }
+\label{fig:cosmos_magdist}
+\end{wrapfigure}
+
+The {\it FOBOS Cosmology Program} will play a critical role by training photo-$z$s from sources with spectral features too blue or fluxes too faint for other instruments, like PFS,\footnote{Subaru's Prime Focus Spectrograph (PFS) commissioning in 2022.} but that dominate by number (Fig.~\ref{fig:cosmos_magdist}).  For example, Rubin Observatory will begin reaching the LSST target 5$\sigma$ point-source depth of $i = 26.8$~(AB) in 2029.   FOBOS spectroscopic follow-up to $i_{AB} = 25.3$ for extended sources will provide a well-matched training sample\footnote{\citet{newman15} emphasize that photo-$z$ ``calibration'' can be accomplished by cross-referencing all-sky surveys of various low-density tracers like quasars and associated absorbers, luminous red galaxies, and emission-line galaxies.} that will \emph{increase LSST's dark energy figure-of-merit by 40\%} \citep{newman15}. No other existing or planned instrument will obtain such a spectroscopic sample on this timescale.  Indeed, although Euclid and WFIRST will both perform grism spectroscopy, the relatively low sensitivity and strongly biased samples (e.g., they will be far more sensitive to galaxies with strong emission lines) mean that grism spectra from these missions are insufficient to train photo-$z$s for the full weak-lensing samples.  Additionally, because FOBOS has no ``redshift desert'' (its blue wavelength coverage allows redshift determination at $1.5\lesssim z \lesssim2.5$ via Ly$\alpha$ and/or nearby UV absorption features), the {\it FOBOS Cosmology Program} will reduce the need for expensive, space-based\footnote{Ground-based near-IR spectroscopy is too contaminated by night-sky emission lines to provide spec-$z$s at the required level of completeness \citep{newman15}.} near-IR spectroscopy of galaxies with $z > 1.5$.  Beyond enhancing cosmological analyses, the resulting galaxy sample would have a major impact on galaxy-evolution studies by providing the spectroscopic coverage needed to fully leverage photometry for billions of galaxies (see \S\ref{sec:ML}). 
+
+% \smallskip
+% \noindent {\textsf{FOBOS Cosmology Program:}}
+
+\subsubsection{FOBOS Cosmology Program}
+This program is designed to observe a set of twelve 0.1 deg$^2$ FOBOS pointings arranged evenly in right ascension and chosen to overlap with the LSST, Euclid, and WFIRST footprints.  At least three pointings would include LSST deep drilling fields (COSMOS, XMM-LSS, and E-CDFS).  The program satisfies the sample size, field variance, and depth requirements in \citet{newman15} by obtaining ultra-deep 50-hour integrations of $\sim$15,000 sources at $24 < i_{AB} < 25.3$, a magnitude range that covers the majority of LSST/WFIRST weak-lensing samples.  While near-Poisson performance with such extreme integration times has been demonstrated with fiber spectrographs \citep[e.g.,][]{gu17,childress17}, our team's investigation of critical design factors that enable such performance (Bundy et al., in prep) has defined FOBOS instrument requirements, including a multi-tier calibration system (\S \ref{sec:calib}).  Accounting for expected sensitivity and stability, our exposure-time calculator estimates a continuum S/N$\sim3.5$ ($i$-band) for the faintest sources at these depths, a level known to be sufficient for $>75$\% redshift success (e.g., \citealp{Newman13}, \citealp{masters19}). 
+
+With 1200 single fibers (per pointing) from two of FOBOS's three spectrographs assigned to cosmology program targets, parallel observations with IFUs fed to its 3rd spectrograph can leverage the ultra-deep exposures needed for targets in the {\it FOBOS Galaxy Ecosystem Program} (\S \ref{sec:galaxies}).  Photo-$z$ calibrators targeted by single fibers will efficiently span color-magnitude space \citep{masters15, masters19} with dynamic re-allocation of fibers to new targets as successful redshifts are obtained.  This program would request 12.5 dark nights per year.
+
+% TODO: **Move this somewhere relevant**:
+% The source density of 40 arcmin$^{-2}$ far exceeds FOBOS's
+% fiber density (6 arcmin$^{-2}$).
+  
+%\note{Dan/all: Add one or more figures to this section. Draft figure by next week. Figure possibilities:}
+%\begin{itemize}
+%    \item Expected LSST/WFIRST weak-lensing shear sample magnitude distribution.  [What exactly does this look like?]  Combine with expected survey speed for PFS, DEIMOS, FOBOS, MSE, ELT/TMT? 
+%    \item Current + projected SOM sampling (combined with previous one?)
+%    \item Improvement of DE figure of merit (WFIRST expected performance; Tim Eifler); drives a lot of the time for this program, should justify this; unique magnitude/redshift range provided by FOBOS? Kevin: Timing arguments? - LSST depths, WFIRST launch, etc.  Dan: Lacking in redshift desert, Z~1-3 (really helping with Z>1.5).
+%    \item as a function of z, where does spec vs. phot z diverge, and how will FOBOS improve that at higher z?  implication is that we're sampling the full redshift range of the survey.  Vs. PFS hinges on the depth argument
+%    
+%\end{itemize}
+
+%-----------------------------------------------------------------------
+
+%\begin{wrapfigure}{r}{0.6\textwidth}\small
+%\vspace{-0.2cm}
+\begin{figure}
+\includegraphics[width=\textwidth]{figs/msipProposalCgmCombo.pdf} %figs/CGMscience_v3.pdf}
+\caption{\footnotesize {\it Left}: Simulations of the density and temperature of the CGM at $z=2-2.5$ based on \citet{Corlies:2018aa}. {\it Center}: Predicted observations of CGM emission sampled by the FOBOS IFUs, providing kinematic maps that trace gas flows using UV tracers (C IV and O VI).  {\it Right}: The {\it FOBOS Galaxy Ecosystem Program} will map these features for hundreds of galaxies sampling a large range physical parameters.  This panel shows a mock sample of program galaxies (star-forming in blue; passive in red) in the stellar mass-star formation rate ($M_*$-SFR) parameter space; the example simulation shown to the left is marked by a green star. The $M_*$-SFR ``main sequence'' from \citet{Whitaker:2012} is shown as the underlying gray 2D histogram.}
+\label{fig:cgmsample}
+\end{figure}
+%\end{wrapfigure}
+
+\subsection{Mapping the Baryonic Ecosystem of Early Galaxies at All Scales}
+\label{sec:galaxies}
+
+The fueling and regulation of galaxy growth during the peak formation epoch ($z \sim2$--3) is critically tied to the turbulent and gas-rich ecosystem in which early galaxies evolve. The James Webb Space Telescope (JWST) and upcoming extremely large (30-m class) telescopes (ELTs) will marshal powerful infrared observations to study the stars and nebular gas at the heart of these early galaxies. But mapping the large-scale gaseous environments and filamentary networks that fuel and ultimately regulate galaxy evolution at these redshifts requires high multiplex absorption-line tomography and rest-frame UV spectral coverage.  FOBOS enables an ambitious two-prong approach to characterizing galaxy ecosystems on all scales: a detailed tomographic study of the cosmic web at $z>1.5$ combined with an ultra-deep IFU survey of emission from the circumgalactic medium (CGM) of $\sim$180 galaxies at the peak of cosmic star formation.
+
+As FOBOS comes on-sky, the PFS Strategic Survey Program on Subaru (running 2023--2028) will have completed an important first step in IGM Ly$\alpha$ tomography by making a map of structure at $2.1 < z < 2.5$ over 15 deg$^2$.  This map will be relatively coarse, however, with a sightline density of 1600 deg$^{-2}$.  While it will provide valuable statistical measures of cosmic web structures, a detailed study of the interplay between the fueling and feedback mechanisms mediated by these structures requires chemical and kinematic diagnostics that are only possible with more fine-grain resolution and higher S/N.  FOBOS, with its greater sampling density, sensitivity, and blue wavelength coverage, will provide these diagnostics via follow-up of high-value regions in the PFS IGM map, such as protoclusters and galaxy overdensities, increasing the source density over PFS by a factor of 4--10 (depending on location).  This higher density yields statistical insight at 1 Mpc separations (the scale of individual massive halos) and the ability to stack sightlines to gain further in S/N so that various heavy-element ion transitions can be studied.  FOBOS will also be able to extend tomographic reconstruction down to $z = 1.5$, where sources are brighter.
+
+FOBOS's unique UV sensitivity (\S \ref{sec:landscape}) and IFU capabilities also open completely new territory: FOBOS will deliver the first significant samples of high-$z$ galaxies with circumgalactic gas mapped \emph{in emission}. UV sensitivity opens access to high- and intermediate-ionization transitions, such as O VI ($\lambda_{\rm rest} = 1032, 1037$ \AA) and C IV ($\lambda_{\rm rest} = 1548, 1550$ \AA), which probe $10^{5-6}$ K and $10^4$ K gas, respectively.  This temperature range marks the peak in gas cooling and therefore constrains how gas rains onto galaxies to fuel star-formation, as well as tracks feedback processes that establish and regulate the CGM (Fig.~\ref{fig:cgmsample}).  While $z\sim2$ galaxy halos may be mapped in Ly$\alpha$ on a one-by-one basis with KCWI (and metal-line emission has already been studied in some extreme objects), FOBOS will map these diagnostics to greater depth and for a large sample of ``normal'' galaxies (Fig.~\ref{fig:cgmsample}).  The combination of single-fiber and multiplexed IFU observations therefore allows FOBOS to map the density and dynamical state of diffuse gas at all relevant scales from the IGM to the CGM, providing novel constraints on the next generation of cosmological simulations.
+
+% In longer term, think through science that we should be proposing now-ish to do with JWST with the idea that we can follow-up with FOBOS.
+
+% Billion galaxy survey?
+%Field selection will take advantage of quasar-quasar pairs 
+%at \note{range or exact number?} certain redshifts.
+
+\subsubsection{FOBOS Galaxy Ecosystem Program}
+
+The two observing campaigns of the {\it FOBOS Galaxy Ecosystem Program} would link the buildup of the CGM to the cosmic web (IGM): (1) The IGM tomography component would span a total of 6 deg$^2$, delivering fine-sampling and detailed follow-up of cosmic structures identified in the PFS IGM maps.  The PFS maps are expected to be publicly available in 2028, but they are not critical to a successful FOBOS program which can continue with high-priority exploration of $1.5 < z < 2.1$ (not accessible to PFS) and a blind IGM survey at higher-$z$ if the PFS survey were unsuccessful.  With a 3-hour integration time, the program targets over 1000 background Lyman-break galaxies per FOBOS pointing (60,000 total), obtaining ${\rm S/N} \sim 3.5$ at $r_{AB} \approx 24.6$, which is sufficient for building a dense network of Ly-$\alpha$ absorbers associated with targeted structures at $z = 1.5$--2.5 \citep[see][]{lee16}. An additional $\sim$600 fibers per pointing will be allocated to galaxies embedded in the cosmic web. Executing this component would require 18 nights.  (2) In a joint observing scheme with the ultra-deep exposures of the {\it FOBOS Cosmology Program}, the CGM study would use FOBOS's unique IFU multiplex capability (configuring one-third of FOBOS's fiber complement into into 15 37-fiber IFUs) to build an unprecedented sample of galaxies spanning respectively $\sim2$ and $>3$ orders of magnitude in $M_\ast$ and SFR, with maps of their CGM {\it in emission}.  Each IFU will observe an on-sky diameter of 5.6 arcsec, sampling gaseous halos in each galaxy at 5 kpc scales out to a radius of 20--25 kpc (Fig.~\ref{fig:cgmsample}).  These observations require the equivalent of 12.5 dark nights per year.
+
+%{Baseline source density goals for PFS: 1600/deg$^2$ over 15 deg$^2$.  This sightline density translates to 100 sources over the FOBOS FOV.  From the luminosity function of LBGs, going to a depth of R = 24.5 affords 400 possible $z=2.0-3.0$ sources within a single FOBOS pointing.  A 3-hr observation delivers S/N$\sim4$ per pixel in the g band.  Going to R = 24.6 means 1000 possible sources per FOV at S/N$\sim3.5$.  If we improve on source density over PFS by a factor of 4, we reduce the average sightline separation to $\sim1$ per comoving Mpc, or resolving scales of most massive individual halos!  This leaves 1400 fibers for `embedded' galaxies in the foreground. }
+
+% \note{Joe/Dan/Kyle: play-out the combination of the 2nd program above and the Cosmology program as a practical illustration of what a series of observing nights devoted to these programs might look like. }
+
+\subsection{Discovery in the Time Domain}
+\label{sec:kilonovae} 
+
+The joint detection of electromagnetic radiation and gravitational waves from GW170817 began a new era of multimessenger astronomy.  This single binary neutron star merger and its associated kilonova has remade our understanding of multiple branches of astrophysics, from the physical nature of mergers and explosion mechanisms to the origin of the heaviest elements in the universe.  Once FOBOS goes on-sky in the late 2020s, gravitational wave detectors like LIGO,\footnote{The Laser Interferometer Gravitational-Wave Observatory} Virgo and KAGRA\footnote{The Kamioka Gravitational Wave Detector, formerly the Large Scale Cryogenic Gravitational Wave Telescope (LCGT)} will routinely detect $\sim$30 binary neutron star mergers with kilonovae (KNe) annually \citep{abbott2018prospects}, providing the samples needed to understand how the physical properties and nucleosynthetic yields of KNe vary with environment.  FOBOS will be crucial in obtaining rapid spectroscopy of the Lanthanide-free ``blue" component of the KN light curve, which peaks within a day post-merger at $\lam_\mathrm{peak}\sim0.35$ $\mu$m (Fig.~\ref{fig:kilonova}). When deployed as the Keck II instrument, FOBOS's always-ready IFU makes it ideal for instant target acquisition and host galaxy characterization, all while simultaneously observing serendipitous targets of interest in the same field-of-view. 
+
+%, each with a typical localization region of $\Omega_\mathrm{90\%}<100$ deg$^2$ . 
+
+FOBOS follow-up will trigger on Rubin target-of-opportunity observations, which will search for KNe within an hour after the gravitational wave alerts are issued \citep[assuming the strategy proposed by][]{margutti2018}. For a typical 50 deg$^2$ localization region, we expect $\sim$100 KN candidates with $m_i\lesssim22.5$, the expected KN brightness at a sensitivity distance of 200 Mpc \citep{cowperthwaite2017, goldstein2019}. Identifying and triggering spectroscopic investigations of the true KN will require FOBOS's rapid and blue-sensitive follow-up capabilities.  By deploying the remaining single fibers and IFUs on separate, pre-assigned transient sources in each pointing, we will take maximum advantage of synergies with time-series data from the world-wide follow-up observations of these gravitational-wave fields. 
+
+\begin{wrapfigure}{r}{0.6\textwidth}%\small
+\includegraphics[width=0.6\textwidth]{figs/kn_fobos.pdf}
+\caption{\textit{Left:} Model kilonova spectra based on GW170817 taken 3.5 hours, 6 hours, 1 day and 2 days post-merger. \textit{Right:} Variations of ``blue" kilonovae, generated by varying the energy, mass and Lanthanide fraction of kilonova models. FOBOS's blue sensitivity is essential to discriminate between these early-time models. Models from \citet{kasen2017}.}
+\label{fig:kilonova}    
+\end{wrapfigure}
+
+Indeed, beyond KNe, Rubin Observatory will discover well over 1 million extragalactic transients annually, including thousands of currently-rare sources such as tidal-disruption events \citep{bricman2020}, superluminous supernovae \citep{villar2018} and changing look quasars. Nearly every FOBOS pointing will contain $\sim$5 LSST transient hosts.  The {\it FOBOS Time-Domain Program} will include a large-scale environmental study of such transients by allocating free fibers from other ongoing programs to those targets.  Through coordination with {\it FOBOS Cosmology} and {\it Galaxy Ecosystem Programs}, we will also target transients with FOBOS IFUs, dramatically increasing resolved spectroscopy of extragalactic hosts \citep[see a recent review by][]{anderson2015} at little additional cost. 
+
+
+% \noindent {\textsf{FOBOS Time Domain Program:}}
+
+\subsubsection{FOBOS Time-Domain Program}
+
+Via rapid follow-up of KN candidates discovered by LSST, FOBOS can undertake a systematic population study of KNe and their environments. Assuming the strategies proposed by \citet{margutti2018}, we expect $\sim4$ KNe to be detectable by LSST and FOBOS annually. For each triggered event, we would target up to $\sim50$ candidates with 10-min observations per event over two nights, nearly twice the total spectroscopic follow-up effort currently possible \citep{hosseinzadeh2019}. We would observe each candidate with FOBOS's central, fixed IFU to obtain a redshift and potential-host properties.  If our monitoring of real-time quick-look reductions identifies the KN, our strategy would immediately initiate deeper ($\sim1$ hour) observations to potentially capture ``blue" kilonovae (Fig.~\ref{fig:kilonova}).  With four KNe annually, this FOBOS program requires $2.5$ nights per year; beyond the KNe observations, many fibers would be allocated to pre-assigned transient sources.
+
+Additionally, FOBOS would observe active transients in pointings from the {\it FOBOS Cosmology} and {\it Galaxy-Ecosystem Programs}.  In the $\sim$24 pointings that overlap with LSST Deep Drilling Fields, we expect $\sim$150 total transients to be visible each year with $m_i<24$. We assign a single IFU to simultaneously observe the transients and their host galaxies (at $z<1$). FOBOS's blue sensitivity will be especially valuable for shock-driven (e.g., Type IIn supernovae) and relativistic events \citep[e.g., the atypically bright Type Ib supernova AT 2018cow;][]{margutti2019}, which peak near $\sim$0.3~$\mu$m. 
+
+
+%small calculations: passing a KN spectrum through the obs calc, we need ~10 min exposures for m  = 22.5 events, leading to roughly 3.5 hrs in a ToO night
+
+
+
+% SciCon thoughts:
+% \begin{itemize}
+%     \item Central, fixed, oversized IFU to quickly acquire and observe ToOs
+%     \begin{itemize}
+%         \item Use other fibers to observe targets that are serendipitously in the field
+%     \end{itemize}
+%    \item Details: On-sky density; event frequency (e.g., number per LSST deep field per month); magnitude distribution; dimming timescale; redshift distribution; spectrograph requirements (spectral range, resolution); synergy with cosmology program? e.g., how many might we expect in a 0.1 deg$^2$ field observed for 100 hr over the course of $\sim$1 month? $<$1?
+%    \item plastic simulation; LSST https://arxiv.org/pdf/1903.11756.pdf
+%    \item synergy with photo-z that don't care about on-sky sampling; how does random fields hurt
+%    \item synergies with instruments on Keck I; NIRES to Keck I for all bands? provides 0.3-2.4 micron simultaneously; scientific argument for kilonovae over the full bandpass; first 5-10 hours for blue signatures, shifts to being dominated in the red within a day.
+%    
+%    \note{Kyle: the Keck plan has Krakens and Bires on keck 1. But we could also move NIRES to keck 1 so we could get full coverage with NIRES and Bires if needed}
+%    
+%    \item FRBs, don't need a quick response; tomography around the FRB
+%    \item in campaign mode; hit any AGN in the field; need to understand numbers and competition with SDSS/BOSS/DESI; to be competitive go to higher cadence and fainter luminosity; absorption-line temporal variability long-scales only? \note{Yuan-Sen: ideally, one would want to have both the long term observation (Yrs) to capture the power spectrum turn off, as well as short cadences to capture the deviation from 1/$f^2$. But scheduling can be hard for revisiting the same objects over years? The short cadence/sitting on targets, might be the advantage here. I.e., capturing the deviation from a red noise spectrum (damped random walk). I think those samples are still super rare, e.g., Kepler. The high cadence faint luminosity is actually exciting.. probing the deviation 1/$f^2$ as a function of luminosity}
+%    \item nearby galaxy angle: look at variable stars; bright AGB stars; luminous-blue variables (LBV); carbon-to-M star ratio; abundance sensitive features in LBVs; environments of historical supernovae; MIRA variables may be bright enough in M31;  RR-lyrae in more local
+%\end{itemize}
+
+%-----------------------------------------------------------------------
+
+\begin{wrapfigure}{r}{0.58\textwidth}%\small
+\includegraphics[width=0.58\textwidth]{figs/M31_footprint_v3.jpg}
+\caption{A Subaru HSC image (lower right) superposed on a larger background image of M31 (credit: Adam Evans).  FOBOS pointings (white circles) span the PHAT area (magenta) and NGC 205.  The Subaru-PFS FOV (green circle; similar to MSE) and single-pointing WFIRST imaging footprint (blue squares) are also shown.}
+\label{fig:M31}    
+\end{wrapfigure}
+
+\subsection{Assembly and Evolution of Andromeda's Disk and Satellite Galaxies}
+\label{sec:localgroup}
+
+Galaxy groups like the Local Group, with two L$^*$ galaxies, dominate the nearby universe \citep{kourkchi17}.  We expect galaxies in such groups to share common assembly histories, and yet, the Milky Way and Andromeda galaxies appear to have evolved in significantly divergent ways.  Differences from their star-cluster populations to their dwarf-galaxy properties remain poorly understood, limiting progress towards building a complete picture for how the Local Group formed and evolved.
+
+For the Milky Way, stellar properties (e.g., age, metallicity, $\alpha$ abundance) and kinematics from large-scale spectroscopic surveys (e.g., APOGEE, GALAH, LAMOST) are now being combined with exquisite astrometric data from {\it Gaia} to provide a revolutionary view of its evolution.  For example, these data reveal a clear bimodality in $\alpha$ abundance, indicating that stars at relatively greater distances from the disk plane (i.e., ``thick-disk'' stars) were formed in environments with much shorter star-formation timescales, likely due to a merger event that truncated star formation for a time.  Isolating chemically similar groups of stars in this way to reveal their common structural and dynamical properties is now fundamental to our understanding of the Milky Way.  This ``chemical tagging'' offers greater insights than studies of stars selected by their structural or dynamical associations alone.  With FOBOS, we can apply similar methods to the study of M31 and its satellite galaxies.
+
+Although chemical tagging with M31 benefits from our outside view of this galaxy (compared to our inside view of the Milky Way), it also faces the challenge of obtaining precise stellar parameter measurements for very large samples.  First steps were made by SPLASH\footnote{Spectroscopic and Photometric Landscape of Andromeda’s Stellar Halo \citep[e.g.][]{splash}} which obtained $\sim$1hr Keck-DEIMOS exposures for $\sim$10,000 RGB stars in the disk, stellar streams, and halo of M31.  \citet{dorman15} used SPLASH to study the stellar age and velocity dispersion of disk stars and found that M31 features a much thicker, high-dispersion component than the Milky Way.  More recently, \citet{Escala20} explored metallicity and $\alpha$ abundance trends in 70 RGB stars ($\sim$6hr Keck-DEIMOS integrations) in the outer disk, inner halo, and Giant Stellar Stream of M31.  These trends also suggest a significant, merger-induced star-formation event in M31.  However, without more precise stellar parameters and larger samples --- beyond the limits of what one can expect to achieve with DEIMOS --- clear inferences that contrast the evolutionary histories of the Milky Way and M31 disks are out of reach.
+
+\begin{figure}
+\includegraphics[width=1.0\textwidth]{figs/abundances_snr_v6.png}
+\caption{Simulated observations demonstrating FOBOS's ability to perform ``chemical tagging'' in M31 and M33. \textit{Left:} Expected S/N for an $i=21.5$ RGB star in M31 observed for 10hr using FOBOS, PFS, and DEIMOS. \textit{Right:}  Forecasted abundance precision for these observations (filled circles), including both statistical uncertainty ($\sigma_{\rm stat}$; predicted by the Cram\'er-Rao Lower Bound) and a 0.1-dex systematic uncertainty \citep[$\sigma_{\rm syst}$; cf.,][]{kirby18, Xiang2019}. Elements are ordered along the ordinate by decreasing precision (limited to $\lesssim$0.3 dex) and color-coded by their primary nucleosynthetic origin. Although these forecasts are optimistic, the indicated {\it relative} precision between instruments is robust. For reference, we show abundance uncertainties reported by \citet[][purple squares]{kirby18} from DEIMOS spectra of $-1.0<\text{[Fe/H]}<-0.6$ RGB stars in MW satellites with comparable S/N to our simulations; their measurement precision is worse than our DEIMOS predictions primarily because of their lower metallicity targets.  We also show abundance uncertainties reported by \citet[][yellow squares]{Xiang2019} from LAMOST spectra of MW RGB stars, scaled to the S/N and resolution of the proposed FOBOS  observations.}
+\label{fig:abundances_snr}
+\end{figure}
+
+The {\it FOBOS Andromeda Program} overcomes this challenge by building a sample that is both 10 times larger than SPLASH and $\gtrsim$0.5 mag deeper than \citet{Escala20}.\footnote{Compared to the \citet{Escala20} M31 disk sample alone, the {\it FOBOS Andromeda Program} sample would be 5000 times larger.}  With FOBOS's larger wavelength coverage and improved S/N, we will measure precise velocities ($<$ 1 km/s), [Fe/H] and [$\alpha$/Fe] to $\sim$0.1 dex, individual elemental abundances to $\lesssim$0.2 dex \citep[Fig.~\ref{fig:abundances_snr}; cf.][]{YST2017}, and stellar age from blue CN absorption features.  Complementing the upcoming wide-field ($\sim$20 kpc at M31 distances) mapping of the M31 halo with PFS and MSE,\footnote{The Maunakea Spectroscopic Explorer (MSE) is a concept being developed for a future telescope and instrument at the current Canada-France-Hawaii Telescope site.} these data will provide the first clear, spatially-resolved measurements of chemodynamical trends in M31's disk, allowing us to address two key questions for the first time: Does M31, like the Milky Way, exhibit its own [$\alpha$/Fe] bimodality?  If so, were the ancient merger histories of the two galaxies linked or largely independent?
+
+Finally, the {\it FOBOS Andromeda Program} also includes legacy campaigns of 500 young stellar clusters in M31's disk \citep[dwarfing even Milky Way samples,][]{johnson15}, the dense cores of M31's major galaxy satellites, and 10,000 RGB stars in M33's disk.  In particular, observations of young stellar clusters capitalize on FOBOS's blue sensitivity and IFU capabilities to produce integrated-light spectra of these objects used to probe the recent evolution of the star-forming disk.  By comparing our measurements in the M31 and M33 disks, M31 young clusters, and M31 satellites with the halo population from PFS, we will construct a holistic picture of the evolution of M31 and its local environment.
+
+% In addition to providing clues to the evolution of these objects specifically,
+
+% All told, the FOBOS Andromeda Progam will allow for the first detailed comparisons of the internal structure, chemistry, and kinematics of M31 and its companions.  
+
+%the blue sensitivity of FOBOS, along with its ability to obtain many small IFU regions within each pointing, will provide detailed spectroscopic maps of $\sim$500 young star clusters, , portegies10.  These clusters probe
+
+% , including its dynamics and chemistry, as well as the conditions under which stars are formed and dispersed throughout the disk.  Although insights into the recent evolution of the M31's disk have already been possible through their photometric properties \citep[e.g.,][]{johnson16}, FOBOS will provide abundance, velocity, and mass information that is currently unavailable, allowing both confirmation of the inferences from photometry as well as large samples of spectroscopic masses and abundances to track the recent formation of stars and metals in clusters across the disk. 
+
+% Turning to M33's disk and major Andromeda satellites, similar high-density FOBOS spectroscopy will
+
+% Wide-field ($\sim$20 kpc at M31 distances) mapping of the M31 halo, using instruments like PFS and MSE,\footnote{The Maunakea Spectroscopic Explorer (MSE) is a concept being developed for a future telescope and instrument at the current Canada-France-Hawaii Telescope site.} will soon probe the chemodynamical history of its stellar substructures; however, FOBOS will provide unique capabilities particularly suited to the high-source-density M31 disk (see Fig.~\ref{fig:M31}).
+
+% , M33, and the cores of Andromeda's major satellites.  Such data enable the chemodynamical studies needed to address key questions about the structure and assembly of these objects. 
+
+% However, FOBOS's blue sensitivity, order-of-magnitude greater sampling density, and IFU modes offer  unique capabilities for obtaining a high-source-density census of M31's disk (see Fig.~\ref{fig:M31}), M33, and the cores of Andromeda's major satellites.  Such data enable the chemodynamical studies needed to address key questions about the structure and assembly of these objects. 
+
+
+%These relations will determine whether M31's thicker disk is the result of dynamical ``heating'' of stars initially formed in a cold, thin disk versus the ``settling'' of a more turbulent primordial disk into the dynamically cold structures seen today.
+
+%\note{paragraph on information garnered by observations of large satellites and young clusters in M31}
+
+%Our large sample size, more than an order of magnitude larger than currently available, will allow for the finer subdivision of the stellar populations and the more-detailed quantification of the chemodynamical structures in M31 and M33, needed for a robust comparison to similar structures in our Milky Way.  
+
+%Currently, {\it only} the Milky Way disk has been measured with this kind of precision, and it required very large surveys with substantial resources to complte, such as LAMOST  \citep{xiang2017, Xiang2019} and APOGEE \citep{hayden2015}.  With FOBOS, we can add {\it two} more disks to this detailed sample as just one example program of the science enabled.
+
+
+%\note{Yuan-Sen: Maybe a sentence or two summarizing the importance of age-velocity-dispersion relation: e.g., nature vs. nurture; upside down ISM cooling vs. secular evolution}
+
+%\note{Include brief statements in the paragraph above about the methods used to get age, metallicity, abundance?: C/N features for RGB age, combining PHAT+WFIRST photometry and FOBOS spectroscopy, abundances for individual elements}
+
+
+%\note{Yuan-Sen: the C/N features of the optical spectra are a good age indicator for RGBs. So we could get age-velocity dispersion, on top of metallicity-velocity dispersion relation.}
+
+%\note{Yuan-Sen: PHAT CMD + FOBOS spectra should give pretty good spectroscopic-photometric constraints on stars}
+
+%\note{note gains in RGB numbers by probing deeper down the sequence?} 
+
+% Proof in the pudding:
+%\note{ref; https://arxiv.org/abs/1908.09727 ?}.
+
+% \noindent{\textsf{FOBOS Andromeda Program:}}  
+
+\subsubsection{FOBOS Andromeda Program} The program is designed in two parts. (1) We would construct benchmark spectroscopic samples of 100,000 and 10,000 RGB stars in the disks of M31 and M33, respectively.  Accounting for a 60\% rejection rate \citep{dorman12} due to crowding of ground-based RGB catalogs ($i_{\rm Vega} < 22.5$), we target six M31 pointings in the PHAT\footnote{Panchromatic Hubble Andromeda Treasury \citep{phat} is a multi-cycle HST program that maps $\sim1/3$ M31's star-forming disk in 6 filters.} region between 5--20 kpc.  Each pointing is visited 10 times, and two disk pointings beyond 20 kpc are each visited once.  In M33, we target 3 pointings, each visited twice.  Each visit will target a unique set of stars --- the stellar density is high enough to efficiently target new stars for each visit with $\sim$95\% completeness --- for a total integration time of 10 hours, an order-of-magnitude longer than the SPLASH survey.  We expect $i$-band ${\rm S/N} \approx 40$ \AA$^{-1}$ and $\approx 20$ \AA$^{-1}$ at the  ``sweet-spot'' of the RGB ($i_{Vega} = 21.5$) and a magnitude fainter, respectively.  This ensures a radial-velocity precision of $<$1 km/s {\it for all targets} and precise metallicity and abundance measurements, as illustrated in Fig.~\ref{fig:abundances_snr}.
+%an internal [Fe/H] precision between 0.05 and 0.1 dex, and an internal [$\alpha$/Fe] precision of 0.1 dex for all spectra with ${\rm S/N} \geq 20$ \AA$^{-1}$. For many stars, individual iron-peak and $\alpha$ elements, as well as C and N, will also be measurable to $\lesssim 0.2$ dex. 
+This combination of sample size and precision allows us to directly compare radial trends in chemodynamical structures between M31, M33, and the MW. (2) Jointly with single-fiber observations of RGB stars, we would acquire IFU observations ($\sim$5.6\arcsec{} diameter) of $\sim$500 young star clusters in the M31 disk.  It would also dedicate 3 pointings (each visited once) for MOS observations of RGB stars in the area including NGC 147, NGC 185, and And II, and use a single pointing (visited twice) for NGC 205.  These observations target 9,000 RGB stars in the central regions of Andromeda's major satellites, yielding their dynamical masses, star-formation histories, and chemical composition.  The two components of the {\it FOBOS Andromeda Program} would require a total of 19 nights per year over 5 years. 
+
+% FROM THE PEP: Do we want to add this back in as a science case for the IFU:  Additionally, a few large-scale star-formation complexes are observed with FOBOS's monolithic IFU (FOV ~700 arcmin2) allow for comparison of the local star-formation activity with the Milky Way. 
+
+% SPECTRAL RANGE BENEFITS OF FOBOS.  INTEGRATE THIS INTO THE TEXT?
+% \note{YST: Depending on the stellar type: oxygen information: direct information is possible for M-giant, but not for K-giant, for the latter, it can be nonetheless be inferred using CNO balance in CN and CH bands. On measuring oxygen in the optical, see Fig 2 https://arxiv.org/abs/1801.07370. Nathan: Including wavelengths below 4000 \AA\ makes the most difference to measuring C, N, and O b/c of the CN and CH bands as Yuan-Sen mentioned. There are some Ni and Cu lines that are gained as well, but the precision of most other abundances don't benefit significantly from the bluer wavelength coverage (probably b/c of the lower S/N in the blue).}
+
+% KBW: Integrate more of what's below into the text?
+
+% \note{Yuan-Sen: Maybe a sentence summarizing the importance of alpha vs Fe? E.g., looking for disrupted satellites, reconstruction SFH / satellite mass function through chemical evolutionary tracks.}
+
+% Indeed, FOBOS will provide high-S/N stellar spectra that connect [Fe/H] and [$\alpha$/Fe] patterns to the underlying dynamics, as well as integral-field observations of young stellar clusters  to determine their present-day mass function \note{ref}.  Combining these FOBOS observations with integral-field data from the SDSS-V Local Volume Mapper
+%\note{Yuan-Sen: LVM is on the Milky Way though; Kyle: Did the scope of LVM change?  I thought it was going to include maps of local (group) galaxies, as well?}
+% and PFS/MSE surveys of halo structure, a complete picture of the Andromeda system's formation history will address key questions about disk evolution, radial migration, dwarf satellites, and dark matter substructure with a level of statistical power that has so far been limited to the Milky Way. Empirical assessments of these phenomena are critical tests for numerical simulations of the formation of the Local Group.
+
+
+%\note{Yuan-Sen: since the last proposal, the paper about measuring abundances at R~2000, S/N=30 (per pixel) spectra is now published. https://arxiv.org/abs/1908.09727 . I remain rather optimistic that we can measure multiple elements including s-process from these spectra.}
+
+
+% KBW: Add this into the discussion?
+%\note{Nathan: I agree w/ Yuan-Sen, I think we're underselling the abundance measurements these observations will enable. Even at the lower S/N end we should be able to measure more than just Fe and alpha. At the higher S/N end we might expect to measure a few neutron-capture elements (including Ce, Zr, La, Y, and Ba). I can provide plots for reference, even if not for inclusion in the proposal.}
+
+%\note{Mike R.: Pandas link; structures revealed because of increased depth, target densities; luminosity function of red giants}
+
+% This needs a better title...
+\subsection{Breadth of Additional Science through Interleaved Programs}
+\label{sec:addsci}
+
+Beyond the scope of our design-reference key programs, {\bf FOBOS enables a broad range of observations} as a general-purpose facility spectrograph.  Based on interests within our science team, a glimpse of additional FOBOS science includes: Milky Way and M31 halo stars and stellar streams; the Milky Way bulge and globular clusters; newly identified variable stars from cadenced LSST imaging; white dwarfs toward the faint end of the cooling sequence; dwarf-galaxy stellar populations and dynamics; the environments and spectra of sources producing fast-radio bursts;  the structure and dynamics of Coma and Virgo galaxies using globular-cluster and planetary nebulae (PNe) tracers; the kinematics and physical properties of gaseous winds expelled from galaxies; 2D emission-line kinematics and radial trends in stellar-population parameters from stacked spectra in galaxies up to $z \sim 1$; environmental metrics for groups and clusters at $z \sim 1$--2; galaxy cluster and proto-cluster dynamics; QSO light echos in the IGM; black-hole reverberation mapping; and the redshift calibration of LBG samples at $z = 1.5$--5 for CMB lensing cross-correlation.
+
+These programs all take advantage of FOBOS's capabilities in different ways; however, they collectively benefit from FOBOS's flexible focal-plane sampling with a uniform spectral format.  While maintaining the important freedom of a PI-led observing mode, these design elements also facilitate new synergistic observing modes that capitalize on FOBOS's information gathering power (Fig.~\ref{fig:info}).  Indeed, the high density of future source catalogs ($\sim$40 arcmin$^{-2}$ at $i_{\rm AB} = 25$) in the era of deep-wide imaging allows FOBOS, with a single-fiber density of $\sim$6 per arcmin$^{2}$, to combine multiple programs that target varied source types and disparate science goals at virtually any accessible field location.  A specific example is the joint observations performed by the {\it FOBOS Cosmology} and {\it Galaxy-Ecosystem Programs} (Table~\ref{tab:progreq}).  In a mode where multiple programs acquire spectra in the same field, we can apportion FOBOS usage in units of ``fiber-hours,'' instead of nights, in a way that maximizes observing efficiency.  In particular, this grows the scientific pie by enabling even small programs with rare targets in the ``long tail'' of the target-density distribution to be combined with other, high-density programs.  This concept is critical to the {\it FOBOS Time-Domain Program}, for example.  Accounting for observing time through fiber-hours also broadens FOBOS access by allowing for a continuous allocation of FOBOS fibers to the full U.S.\ community (\S \ref{sec:community}).
+
+%The range of possible science investigations beyond the key programs impressive:
+% \note{Kevin/Kyle: expand on the above: provide better definition of "fiber-hour", highlight the research done by they CMU sub-award for MAISTRO; mixing programs benefits from a fixed spectral format, or push this to section 2?}
+
+% \note{Mike R.: Describe an example, "PI-led" MW bulge program that you might want to do with FOBOS?  RR Lyrae?}
+
+% \note{All: It might be useful to have a couple "PI-led" example programs.  Any takers?}
+
+% \note{Kevin/Kyle: Possibly rename this section based on the input and change in content.}
+
+% \note{Dan/All: Add a couple sentences/paragraph describing overlap with LSST, Euclid, WFIRST.}
+
+% \note{Yuan-Sen: on giving a specific example of PI-led projects, I think the bulge/inner galaxy in the blue with GLAO will be amazing. The AO capability is one of the stronger sells, but it is not mentioned much in the current designated cases. If we are willing to sell the idea that we could get multiple elemental abundances of stars too, that will be a game changer. Most inner galaxy studies were done in the red/IR - not much elemental abundance information. The dynamical time in the inner Milky Way is short, so chemistry is crucial to sort things out.}
+
+% \note{Yuan-Sen: Probably already too much, but these spectroscopic sample will also serve as a training set to derive photometric propoerties (metallicity) of stars, similar to photo-z.}
+
+\medskip
+
+\begin{figure}[h!]
+\captionof{table}{Summary of FOBOS Design-Reference Program Concepts}
+\includegraphics[width=0.85\textwidth]{figs/key_program_summary.pdf}
+\label{tab:progreq}
+\end{figure}
+
+Serving as both a summary table and an illustration of how FOBOS enables program synergies, Table \ref{tab:progreq} collects salient details for the {\it FOBOS Cosmology} (blue), {\it Galaxy-Ecosystem} (green), {\it Time-Domain} (gold), and {\it Andromeda} (red) Programs.  From left to right, we provide the primary program targets, the required aperture format, the expected source magnitude, the observed sample size, the exposure time per target, the number of unique pointings, the fraction of fibers allocated to the program targets in each configuration, and the total number of nights that would be requested.  Bold entries in the last four columns highlight quantities that are {\it shared} between multiple programs; e.g., observations of photo-$z$ calibrators and CGM emission are completed {\it simultaneously} via a single 62.5-night request. This demonstrates the utility of allocating FOBOS time in terms of ``fiber hours'' given that programs may not require FOBOS's full fiber complement on a given observing night.  Indeed, no nights have been assigned to follow-up of LSST transients or their hosts given that these observations can be integrated with other (e.g., PI-led) observing programs in effectively any FOBOS field.  
+
+% Optimized integration of observing programs is an exciting opportunity in terms of access (as described above), observing efficiency and science return.  It also presents an interesting challenge that the FOBOS team (in particular via our CMU partnership/sub-award) will begin to address during the preliminary design phase.
+
+\subsection{Deep Learning with FOBOS}
+\label{sec:ML}
+
+Even with its high target density, FOBOS can never provide spectroscopic follow-up of a significant fraction of targets drawn from upcoming large-scale imaging surveys.  Indeed, {\it billions} of viable galaxy targets will be observable from Keck in the combined LSST, Euclid, and WFIRST photometric catalogs.  A spectroscopic survey of that scale requires techniques still in the early stages of development (e.g., high-throughput photonics).  Fortunately, however, advanced data-analysis methods, adapted from ongoing research in Machine Learning and Statistics, can leverage spectroscopic samples to infer properties of objects with only photometric measurements \citep[e.g.][]{hemmati19}. Recent years have seen significant progress in the development and application of such methods for this purpose; for example, redshift estimation with photometry (``photo-$z$ estimation’’) can now be addressed as a machine-learning problem. While spectroscopic surveys provide the crucial ``training sets’’ required to learn the relationship between colors and redshift, small samples are sufficient in order to build accurate prediction methods, as long as they are representative of the photometric population. Each problem presents unique challenges and requirements, but similar approaches could be taken to infer properties of objects, such as galaxy star-formation rate or stellar age \citep[e.g.][]{TingPayne19}. Hence, a moderate investment in the development of tailored methods of data analysis can yield scientific gains from photometric surveys, comparable to having significantly larger spectroscopic samples.
+
+With its combination of sensitivity and multiplex, FOBOS on Keck will be ideally suited to such applications in three ways.  First, at least until the advent of 2nd-generation ELT instruments, FOBOS will be unparalleled in its ability to probe the faint end of, e.g., LSST's photometric catalogs. In fact, beyond its immediate application to photo-$z$ training, the 15,000 spectra obtained by the {\it FOBOS Cosmology Program} will serve as an ideal training set for galaxy-evolution studies of the much larger galaxy samples with LSST/Euclid/WFIRST photometry.  Second, FOBOS's ability to collect information (Fig.~\ref{fig:info}) is significantly greater than similar instruments over the same wavelength range.  This allows FOBOS to efficiently build large samples that can be combined with training data of greater depth or higher spectral resolution to, e.g., produce high-level properties of galaxies at high redshift.  Finally, the cost of observing rare targets---critical to constructing training sets that span large volumes of parameter space---is reduced because FOBOS can efficiently combine targets from multiple programs (\S \ref{sec:addsci}).
+
+%\note{Dan/Kyle/Joe: Work through some numbers here} Number of ultra-deep observations in the Cosmology program is 15k, requires 1200 telescope hours.  How many $i_{\rm AB} < 25.3$ objects will there be in LSST that Keck could observe?  How much time would that take to observe (ridiculous number)?  But if we target galaxies that fill in undersampled regions of the SOM, we effectively get the galaxy evolution science for free.  I.e., if we get the sampling and training right, those 15k spectra allow for a data-driven inference of galaxy-evolution properties for N galaxies over a redshift range from x - x...
+
+% Show example from SOM VVDS?
+
+% \note{draw in more text from our MSRI?}
+
+% for, e.g., millions of stars and galaxies, similar to the use of low-resolution LAMOST data to infer individual elemental abundances presented by \citet{Xiang2019}.
+
+
+% SciCon comments:
+%   - Add a FOBOS design requirement for follow-up of deep fields?
+%       - LSST 10 deg$^2$, so likely can’t cover entire area
+%   - Discuss statistical bootstrapping of samples:
+%       - deep targets with and without spectroscopy
+%       - deep targets with spectroscopy to giant samples from mid-depth areas
+%   - Get a sense of the number of objects at each stage:
+%       - deep targets with spectroscopy, deep imaging only, shallower imaging only
+%       - gains made at each stage
+%   - Make sure to emphasize galaxy evolution science that comes for free with cosmology case
+
+% \note{Yuan-Sen: Some of that would require Milky Way overlaps (with other Milky Way surveys, spectroscopic or asteroseismology) for the training set... is that feasible?}
+
+\section{Scientific Benefits to the U.S.\ Community}
+\label{sec:community}
+
+The need for a significant U.S.\ capacity to obtain high-multiplex spectroscopic follow-up in the Rubin era has been
+emphasized in numerous reports.  In 2015, a National Research Council report concluded that ``the National Science
+Foundation should support the development of a wide-field, highly multiplexed spectroscopic capability on a medium- or
+large-aperture telescope...'' \citep{NAP21722}.  A workshop organized by the National Optical Astronomy Observatory in
+2016 at the NSF's request highlighted specific spectroscopic needs for LSST follow-up in all science areas.  The report
+that followed argued there was an urgent need to ``Develop or obtain access to a highly multiplexed, wide-field optical
+multi-object spectroscopic capability on an 8m-class telescope.''  Our proposal addresses these calls to action.
+
+Meanwhile, FOBOS also ranks as one of WMKO’s top priorities in the coming decade, as encapsulated in its 2016 Strategic
+Plan and evidenced by WMKO’s commitment to make 30 nights available to the U.S. community over \emph{this MSIP proposal
+period}, thereby deepening community involvement in Keck during the FOBOS design phase.  Relative to this proposal's
+funding request, this 30-night commitment is akin to the return on investment provided by the NSF/NOAO Telescope System
+Instrumentation Program (TSIP) from the last decade.  NSF's NOIRLab will administer these 10 nights of Keck time per
+year from 2021--2023 through the NOIRLab TAC process.
+
+Looking further ahead, the FOBOS team is actively fostering engagement of the larger U.S.\ community in developing and
+leading future FOBOS public-survey programs of wide scientific benefit. NSF's NOIRLab has agreed to partner with us in
+developing additional ``open-access'' models and building planning tools that, once FOBOS is on-sky, allow U.S.\
+astronomers to propose for a reserved portion of FOBOS fibers. A proposed $\sim$100,000 fiber-hours --- or roughly
+$\sim$160 DEIMOS $+$ $\sim$270 LRIS-B nights --- per year, will allow individual PI programs to be integrated into the
+suite of all FOBOS observations.  NSF's NOIRLab has also agreed to solicit additional key program concepts from the
+U.S.\ community, host workshops on these concepts, and coordinate proposing teams ahead of a competed selection
+process.  The final number of open-access fiber-hours and public survey nights are subject to approval by WMKO, its
+steering committee, and its board.
+
+% DEIMOS nights: 100,000 hr / 100 slits / 6 hours per night = 167 nights
+% LRIS nights: 100,000 hr / 60 slits / 6 hours per night = 277 nights
+
+\begin{wrapfigure}{r}{0.55\textwidth}%\small
+\includegraphics[width=0.55\textwidth]{figs/FOBOS_info_power.pdf}
+\caption{FOBOS's information gathering power relative to a suite of instruments that exist (LRIS, DEIMOS, KCWI, MUSE), are under construction (PFS), or proposed (MSE). For each instrument, we plot the spectral resolution ($R$) times the instrument etendue --- efficiency ($\eta$; ratio of incident to detected photons) $\times$ multiplex ($N_{\rm ap}$) $\times$ telescope effective area ($A$) $\times$ solid angle per aperture ($\Omega_{\rm ap}$).  When photon limited, etendue is inversely propotional to the exposure time required to meet a fixed S/N; we normalize by spectral resolution to reflect the information gathered per angstrom.  Except for VLT-MUSE (a 1\arcmin{}$\times$1\arcmin{} IFU) over 35\% of FOBOS's wavelength range, FOBOS outperforms all other instruments in terms of raw observing power over its spectral range, and it is a factor of 5--10 more powerful than existing optical spectrographs on Keck.  In particular, note the significant difference in blue sensitivity ($\lambda \lesssim 4000 {\rm \AA}$).} 
+\label{fig:info}    
+\end{wrapfigure}
+
+Finally, we have emphasized the design of software platforms necessary
+for a seamless user experience from target submission to data-product
+retrieval and analysis. FOBOS will be the first \emph{general-purpose}
+spectroscopic instrument to automatically provide high-level data
+products such as redshifts, galaxy stellar-continuum fits, emission-line
+properties, and stellar parameters. With a commitment to the public
+release of raw, reduced, and high-level products derived from \emph{all}
+FOBOS observations, these data products will dramatically reduce the
+time from observations to science. Our team has delivered previously in
+this regard, providing the first comprehensive high-level data product
+package for an SDSS survey with MaNGA's\footnote{Mapping Nearby Galaxies
+at Apache Point Observatory (MaNGA) is one of three SDSS-IV core
+programs. Bundy also serves as the MaNGA PI. CoI Westfall led
+development of MaNGA's Data Analysis Pipeline.} Data Analysis Pipeline
+\citep{westfall19} and its interactive public science platform, Marvin
+\citep{cherinka19}.  We will also use our established
+connections\footnote{Co-I Schafer is Co-Chair of Rubin Observatory LSST's ISSC.} to
+LSST's Informatics and Statistics Science Collaboration (ISSC) to
+advertise, recruit, and coordinate efforts on deep-learning tools for
+both key science and FOBOS operations (e.g., our data-driven observing
+optimization tool, MAISTRO, discussed in our Data Management Plan).
+
+\subsection{Competitive Landscape}
+\label{sec:landscape}
+
+FOBOS's science capabilities --- especially its UV sensitivity, targeting flexibility, and IFU modes --- are unique among instruments existing or planned for 8--10 m telescopes (Fig.~\ref{fig:info}).\footnote{DEIMOS, LRIS, and KCWI data come from their public webpages; PFS data were provided by the instrument team; MUSE data were taken from the instrument manual; and MSE data are from \citet{FlageyMSE}.}
+% \footnote{Sources:   \url{https://www2.keck.hawaii.edu/inst/lris/dispersive_elements.html} (LRIS), \url{https://www2.keck.hawaii.edu/inst/deimos/gratings.html} (DEIMOS), \url{https://www2.keck.hawaii.edu/inst/kcwi/thoughput.html} (KCWI), and \url{https://www.eso.org/sci/facilities/paranal/instruments/muse/inst.html} (MUSE), and \citet[][MSE]{FlageyMSE}; PFS $\eta$ measurements were provided directly by their instrument team (see also \url{https://pfs.ipmu.jp/research/parameters.html}).}  
+A menu of focal-plane sampling options allows for a highly efficient combination of science programs.  And while its wavelength range is fixed, higher S/N at lower spectral resolution (e.g., $R\sim 1500$) is easily achieved with FOBOS by CCD binning (when photon limited).  FOBOS also features promising upgrade paths including ground-layer adaptive optics and additional spectrographs with greater resolution or near-IR sensitivity (\S \ref{sec:upgrades}).
+
+Subaru's PFS, although limited in U.S.\ access, has similar single-fiber multiplex (2400), but a 1.4 deg field-of-view.  FOBOS is 3.5$\times$ more sensitive than PFS due to Keck's larger aperture and FOBOS's higher instrument-only efficiency (cf. Fig.~\ref{fig:abundances_snr}).\footnote{Primarily the result of a shorter fiber run, narrower more optimized wavelength channels, and high efficiency fused silica etched (FSE) gratings.} The FOBOS fiber density is 6 arcmin$^{-2}$ whereas PFS is limited to 0.6 arcmin$^{-2}$.  The proposed MSE field-of-view and multiplex would be similar to PFS but with a larger telescope (with an effective area slightly larger than Keck). Neither PFS nor MSE are sensitive at wavelengths bluer than $\sim$380 nm, while FOBOS maintains $>$30\% throughput down to 310 nm; however, PFS and MSE both have near-IR channels, covering $\lambda < 1.26 \mu{\rm m}$ and $\lambda \lesssim 1.8 \mu{\rm m}$, respectively.  MSE's design\footnote{MSE requires new telescope construction on Maunakea and features an instrument design roughly twice as complex as PFS.} additionally envisions 1000 fibers feeding a set of $R \sim 40,000$ spectographs.  VLT-MOONS is another high-multiplex fiber instrument on an 8--10 m telescope (commissioning in 2021); however, it is primarily a near-IR instrument with a 0.65--1.8 $\mu$m bandpass and 1000 fibers attached to a zonal positioner over a 25\arcmin{}-diameter field.   
+
+After FOBOS deploys in 2028, deep FOBOS observations will out-perform 1st-generation ELT instruments studying samples of $\sim$2000 or more sources.  TMT-WFOS and GMT-GMACS have much narrower fields of view (several arcminutes) and a factor 30$\times$ less multiplex.  The 2nd generation MOSAIC instrument on the E-ELT is optimized at red (200 fibers, 0.45--0.8 $\mu$m) and near-IR wavelengths (100 fibers, 0.8--1.8 $\mu$m).  Both GMT and E-ELT would be located in Chile.  A 2nd-generation GMACS upgrade called MANIFEST would utilize technology developed by FOBOS.  MANIFEST would deploy 1000 fibers on GMT in 2035--2040, but its design specifications and expected performance are not yet known in detail.  FOBOS would therefore remain the premier high-multiplex instrument at optical and especially blue wavelengths for at least 10--15 years and likely longer.  Its location in the northern hemisphere is a strong advantage for M31 science and follow-up of northern time-domain sources.
+
+%Some Blue MUSE specs from Joe: FOV $\sim 1.4 \times 1.4$ arcmin at 0.3 arcsec sampling; blue limit at 3500 angstrom}
+
+%\note{Kevin/Kyle: Bring back survey speed argument as a way of emphasizing FOBOS's unique place as an LSST/Euclid/WFIRST follow-up engine for the US community?}
+
+
+% \subsection{Research Community Priority} 
+% \label{sec:community}
+
+% The need for spectroscopic follow-up in the LSST era was made clear in
+% the National Research Council's 2015 report, ``Optimizing the U.S.
+% Ground-Based Optical and Infrared Astronomy System'' \citep{NAP21722}:
+% %
+% \noindent\begin{center}\mbox{\parbox{0.95\linewidth}{
+% %
+% The National Science Foundation should support the development of a
+% wide-field, highly multiplexed spectroscopic capability on a medium- or
+% large-aperture telescope in the Southern Hemisphere to enable a wide
+% variety of science, including follow-up spectroscopy of Large Synoptic
+% Survey Telescope targets. Examples of enabled science are studies of
+% cosmology, galaxy evolution, quasars, and the Milky Way.
+% %
+% }}\end{center}
+
+% Workshops organized by the National Optical Astronomy Observatory (NOAO)
+% in 2013 and 2016, the latter at the NSF's request, reported specific
+% spectroscopic needs for LSST follow-up in all science areas.  In
+% particular, the 2016 report notes that a critical resource in need of
+% prompt development is to ``Develop or obtain access to a highly
+% multiplexed, wide-field optical multi-object spectroscopic capability on
+% an 8m-class telescope.''  Based on these recommendations, we propose the
+% FOBOS instrument coupled with a suite of data-driven tools to address
+% the spectroscopic requirements of LSST and other photometric surveys at
+% a final cost 20 times less than a new Southern Hemisphere facility.
+% Located in Hawaii, FOBOS can access more than 70\% of the LSST
+% footprint, more than adequate for building powerful
+% spectroscopic training sets.  Compared to the Prime Focus Spectrograph
+% (PFS) on Japan's Subaru Telescope, FOBOS would be 1.7$\times$ faster,
+% provide unique UV sensitivity (0.31--1 $\mu$m compared to
+% 0.38--1.25 $\mu$m with PFS), and offer higher-density, more flexible
+% target sampling over ``deep-drilling'' fields.  Unlike PFS, FOBOS would be operated
+% on a U.S.\ telescope with dedicated U.S.\ access and a commitment to
+% supporting U.S.-led imaging facilities.  FOBOS is also complementary to
+% future telescopes and instruments that would be optimized to cover wider areas
+% (several deg$^2$ per pointing) at shallower depths.
+
+%\note{mention FOBOS can do PI-led science too}
+
+% The need for deep spectroscopic follow-up is particularly acute for the major cosmological probes to be carried out by
+% LSST, Euclid, and WFIRST, which all rely on ``photometric redshifts:'' measures of galaxy redshift, $z$
+% --- a direct proxy of distance and look-back time---based on imaging alone. \citet{newman15} summarize the case for a
+%     significant spectroscopic campaign to calibrate and train LSST photometric redshifts in order to improve cosmological constraints.  They describe a redshift survey that,
+%     if carried out with FOBOS, would increase LSST's Dark Energy figure-of-merit by 40\% at a cost of less than 5\% of
+%     the LSST budget.  The urgent case for spectroscopic redshift training has been the subject of numerous publications
+%     \citep[e.g.,][]{laureijs11, masters15, hemmati18}.
+
+% Meanwhile, the astronomy community recognizes that the coming ``Big
+% Data'' era, culminating in LSST, necessitates ``\textbf{harnessing the
+% data revolution}.''  Widespread community interest in advanced
+% data-science techniques continues to grow amidst calls for educational
+% programs, conference series, and research funding to support the growth
+% of a new field, ``Astroinformatics,'' which exploits the interface
+% between astrophysics and statistics \citep{borne09}.  Astronomy's
+% largest organizations, including the American Astronomical Society and
+% the International Astronomical Union, have supported active working
+% groups on astroinformatics and astrostatistics since 2015.  LSST itself
+% has supported the Informatics and Statistics Science Collaboration and
+% partnered with NSF on the Data Science Fellowship Program to train
+% astronomy graduate students in data-science techniques.  Our proposal
+% builds on and contributes to these ongoing efforts.
+
+%-----------------------------------------------------------------------
+%-----------------------------------------------------------------------
+\section{Technical Overview}
+\label{sec:project}
+
+% \noindent \note{1 page}
+
+% Here's an alternative way to put in figures if we want captions on the side (to save space)
+% Could introduce a new ``counter'' to count and label figures appropriately
+%\centerline{\hbox{\includegraphics[width=0.6\textwidth, angle=0]{figs/FOBOSatKeck_v1.pdf}
+%    \hspace{0.1cm} \vspace{2in}
+%    \parbox[b]{0.3\textwidth}{\small {\bf Figure ??:} Rendering of FOBOS instrument systems deployed at the Keck II Nasmyth port.  By mounting the FOBOS spectrographs under the Nasmyth platform, other instruments like DEIMOS can maintain access to the telescope. \vspace{2cm}}}}
+
+\begin{figure}[h!]
+\vskip -0.1in
+\includegraphics[width=\textwidth]{figs/FOBOS_inst_FPzoom_v2.pdf}
+\caption{\small {\it Left}: Rendering of FOBOS instrument systems (without thermal enclosures and electronics packages) deployed at the Keck II Nasmyth port. {\it Right}: Zoom-in of the Focal Plane Module with the support framing removed.}
+\label{fig:layout}
+\end{figure}
+
+\noindent The current conceptual designs for all FOBOS sub-systems are briefly described in the following subsections and summarized in Table \ref{tab:specsummary}.  For each subsystem, we also comment on its technical maturity and heritage, where appropriate.  The work we propose here would advance all design elements, including the operational, software, and systems architecture, to the level expected for a Preliminary Design Review (PDR) in 2022.  While a portion of the work requires lab testing (e.g., fore-optics), progress on most work-packages in this phase can proceed with FOBOS team members working remotely, making COVID-19 disruptions minimal.
+
+The Final Design Phase, including prototyping and initial hardware procurements, would begin after PDR and would be funded through subsequent proposals and partnership agreements (see \S\ref{sec:mng}).  While grounded in design heritage from previous instruments, FOBOS features several innovations including a horizontal focal plane, the use of Starbugs with either single-fiber or IFU payloads that enable various observing modes, and the use of high-efficiency fused silica etched (FSE) gratings in all spectrograph channels.
+
+\subsection{Focal-Plane Module} The focal-plane module comprises several key systems held in a rolling frame that can be pulled back and stowed, maintaining exchangeable access of multiple instruments to the Keck II Nasmyth port (Fig.~\ref{fig:layout}).  FOBOS's focal-plane module includes the compensating lateral atmospheric dispersion compensator (CLADC), the focal plate and Starbugs positioners, the metrology and calibration systems, and the cable wrap and tray.
+
+\subsubsection{CLADC} The FOBOS CLADC consists of three lenses and a fold mirror, working together to correct the wavelength-dependent angular dispersion caused by the atmosphere when viewing at different zenith angles. The CLADC concept was established in \citet{saunders14}, adopted for MSE, and under consideration for the GMT.  For FOBOS, the CLADC's fused silica lenses have all-spherical surfaces and diameters of 1.0--1.2 meters.  When FOBOS is deployed, the first two CLADC lenses are positioned slightly ($\sim$200 mm) inside the Nasmyth journal.  The third CLADC lens is at the telescope image plane; it has a curved rear surface to match the curved focal plane and serves as the mounting surface for the Starbug positioners.  The first and third CLADC lenses are articulated by motorized mounts to trace simple arcs.  A field rotator also independently rotates the third lens focal plate to track the field angle.
+
+Before converging to the image at the focal plate, the nearly-horizontal beam is folded upwards by a 45$^\circ$ mirror before the third lens. This has the substantial benefit of providing a horizontal (i.e., gravity invariant) surface on which the Starbugs roam (see below), but requires an additional 1.6 m of telescope focal length to make room for the fold and focal-plane support structure.  This extended focal length is made possible by a 20 mm shift of the Keck secondary mirror coupled with a slight rephasing of the primary mirror segments (by amounts well within their range of motion) to correct wavefront aberrations to an acceptable level of $\sim$0.3\arcsec{}.  To enable on-board internal calibrations, the fold mirror is able to rotate in the horizontal plane to face away from the telescope and instead accept light from the calibration system.
+
+Zemax modeling shows that the CLADC design delivers superb image quality ($<$0.3\arcsec{} rms diameter) across Keck's entire 20\arcmin{}-diameter unvignetted field-of-view for zenith angles as large as 60$^\circ$, over a bandpass of 350--1000 nm.  The $\sim$6\arcsec{} amplitude of atmospheric dispersion is reduced to $<$0.1\arcsec{}.  Furthermore, the beam's chief ray angles match the surface normal with an average error of 0.06$^\circ$, meeting a conservative 0.1$^\circ$ requirement for negligible geometric focal-ratio degradation.  In the next phase, we will expand the design's bandpass to 310--1000 nm; early analysis suggests excellent performance.  The CLADC is reasonably mature at this design stage, with optical elements well within the fabrication capabilities of several optical suppliers.  The mechanical structure and actuation requirements are low-precision and low-risk.
+
+\subsubsection{Focal-Plane Sampling}
+
+Benefiting from the Starbugs technology (\S \ref{sec:starbugs}), FOBOS has the significant advantage of providing a menu of night-time configurations that allow users to deploy single-fiber apertures (MOS mode), multi-fiber integral-field units (Multi-IFU mode), and combinations thereof.  Fiber connectors enable an exchange, performed during a daytime procedure, between 600 MOS fibers or 15 37-fiber IFUs for each of the three spectrographs.  FOBOS also offers a single large IFU with 1657 fibers (37.6\arcsec{} diameter)
+%; Tab.~\ref{tab:specsummary})
+that simultaneously feeds all three spectrographs. In practice, portions of the total fiber budget will be allocated to ($\sim$100--200) roaming sky fibers, ($\sim$12) 7-fiber ``mini-bundles'' for flux calibration, and a single 37-fiber IFU (3\arcsec\ in diameter) for rapid-response spectroscopy. Table~\ref{tab:sampling} enumerates the five sampling configurations in the current FOBOS design (note the configuration for combined observations of the {\it FOBOS Cosmology} and {\it CGM Programs} is given in the third row).
+
+% with 1--2\% gap losses between fibers. 
+
+\begin{wrapfigure}{r}{0.4\textwidth}
+\begin{threeparttable}
+\captionof{table}{FOBOS Sampling Modes$^\dagger$}
+\label{tab:sampling}
+\begin{tabular}{l | r r }
+\hline
+Deployed Apertures  & $N_{\rm MOS}$ &  $N_{\rm IFU}$ \\
+\hline
+Large IFU           &     0 &      1  \\
+MOS                 &  1800 &      0  \\
+MOS$+$Multi-IFU     &  1200 &     15  \\
+MOS$+$Multi-IFU     &   600 &     30  \\
+Multi-IFU           &     0 &     45  \\
+\hline
+\end{tabular}
+\begin{footnotesize}
+\begin{tablenotes}
+\item $^\dagger$Assumes 600 fibers per spectrograph pseudo-slit; detailed apportionment of science, sky, and flux-calibration fibers will be studied in Preliminary Design.
+\end{tablenotes}
+\end{footnotesize}
+\end{threeparttable}
+\end{wrapfigure}
+
+Microlens fore-optics coupled to each fiber demagnify and speed up the telescope beam from $f/15$ to $f/5$. This better couples telescope light to the 175 $\mu$m core fiber (${\rm NA} = 0.11$), minimizing losses from geometric focal-ratio degradation (FRD) and providing a maximum effective on-sky diameter of $0.8\arcsec$ per fiber.  Our study of historical Keck seeing measurements (0.67\arcsec\ median over the past 15 years) justifies the choice of 0.8\arcsec\ as a balance between sky noise and aperture loss.
+Our IFU designs incorporate 97\%-fill-factor microlens arrays coupled to fiber bundles via fore-optics assemblies.  By deploying different fore-optic designs, 
+%versions of the pupil-imaging  fore-optics,
+the per-fiber collecting aperture can be reduced while maintaining a fixed fiber core diameter and spectrograph format.  Individual apertures of 0.8\arcsec\ are optimal for our CGM IFU program; however, other IFU programs, to be explored during Preliminary Design, may desire finer spatial sampling of the delivered point-spread function (PSF).
+
+We are currently prototyping microlens optics and optomechanical assemblies for lab and on-sky testing. Lab testing of fiber throughput, output beam profiles, and stress-induced FRD has already begun at both UCO and UCB/SSL.  While we will refine prototyping and process control in our own labs, we are also pursuing commercial options for the full-scale manufacturing of the fore-optics assemblies.
+
+% Optimal fiber aperture trade study here: https://uco.atlassian.net/wiki/spaces/FOB/pages/28606501/Trade+Study+Single-fiber+aperture+size
+
+
+% \note{From Marc: Note advantages of Starbugs over other zonal positioners.}
+
+\begin{figure}[h!]
+\vskip -0.1in
+\includegraphics[width=\textwidth]{figs/starbugs_combined.pdf}
+\caption{\small {\it Left}: Starbugs fiber positioners depoyed with the TAIPAN instrument. {\it Right}: Distribution of closed-loop positioning accuracy for TAIPAN Starbugs.  An error of $<$7 $\mu$m (vertical line) would correspond to $<$0.01\arcsec{} for FOBOS.}
+\label{fig:starbugs}
+\end{figure}
+
+%\begin{wrapfigure}{r}{0.30\textwidth}%\small
+%\includegraphics[width=0.30\textwidth]{figs/starbugs_v1.jpg}
+%\caption{Starbugs fiber positioners.}
+%\label{fig:starbugs}
+%\end{wrapfigure}
+
+\subsubsection{Starbugs Robotic Positioners}
+\label{sec:starbugs}
+
+FOBOS's flexible focal plane is enabled by Starbug positioners (Fig.~\ref{fig:starbugs}), which unlike fixed-grid zonal positioners, can be deployed with both single-fiber and IFU payloads on the same focal plane.  Starbugs not only allow for multiple observing modes, but have multiple overlapping patrol zones and are efficient for both sparse and dense field configurations.  Although switching between deployed modes is currently envisioned to be a daytime procedure, more dynamic, night-time switches will be studied in the next phase.
+
+Starbugs are composed of two concentric cylinders with the payload (single-fiber or IFU) secured in the center. Starbugs can be precisely rotated and ``walked'' across the focal plate using specific high voltage waveforms applied to the piezo actuators of both cylinders. A vacuum seal holds the Starbugs against the plate. FOBOS's horizontal focal plane prevents Starbugs adhesion loss and allows for smaller, more agile designs that are aided by gravity to stay correctly mounted. Precision positioning is made possible by a metrology system that uses three cameras installed in the support structure of the CLADC to image the bottom face of the focal plate through the fold mirror. Three back-illuminated beacon fibers located in the outer ring of each Starbug allow the system to locate and determine the orientation of each Starbug.
+
+%\begin{wrapfigure}{r}{0.60\textwidth}%\small
+%\includegraphics[width=0.59\textwidth]{figs/starbugs_pos_error_v1.pdf}
+%\caption{Distribution of closed-loop positioning accuracy for TAIPAN Starbugs.  An error of 7 $\mu$m would correspond to 0.01\arcsec{} for FOBOS.}
+%\label{fig:starbugs_error}
+%\end{wrapfigure}
+
+Starbugs can patrol regions several arcminutes in diameter and can be placed as close as 10\arcsec{}. The reconfiguration time goal is 2 minutes. AAO\footnote{Australian Astronomical Optics (AAO), formerly Australian Astronomical Observatory.} is currently testing Starbugs on-sky as part of commissioning the TAIPAN instrument,\footnote{TAIPAN, consisting of its fiber-positioning system and spectrograph, deploys 150 Starbugs on the focal plane of the UK Schmidt Telescope at Siding Spring Observatory (NSW, AU).} which has been delayed due to problems unrelated to Starbugs. A number of lessons-learned from the Starbug technology development as part of the TAIPAN instrument are already incorporated into the FOBOS conceptual design.  This experience also informs the Preliminary Design Phase work, including enhanced instrument modularity, ``slipper'' ring design and materials studies, and electronics upgrades.
+
+Starbugs assembly, verification, and test processes have been developed and refined over several years. These tests, along with the data from continuous lifetime tests (equivalent to greater than 5 years of instrument operations), show that only minor and infrequent calibration is needed to maintain successful closed-loop positioning. With a small step size, exquisite positioning accuracy for Starbugs has been demonstrated; positioning accuracy is typically better than 7 $\mu$m for TAIPAN, which is equivalent to 0.01\arcsec{} for FOBOS and well below our requirements  (Fig.~\ref{fig:starbugs}). 
+%(Fig.~\ref{fig:starbugs_error}). 
+
+\subsubsection{Fiber Cabling and Stress Relief}
+
+The FOBOS cables will be built following under-sea cable construction techniques; the fibers will be helically wound to allow equal bending, have a central tensile element to prevent stretching, and have a ruggedized sheath for protection. This type of fiber cable construction has been shown to minimize stress-induced FRD, while not restricting the focal-plane motion systems as a result of stiffness.  This method was tested and selected as the cabling system for both PFS and DESI.
+
+\subsubsection{Systematics Control and Calibrations}
+\label{sec:calib}
+
+FOBOS is optimized for sensitivity.  We have pursued design choices with a careful eye not only on maximizing throughput but maintaining excellent instrument stability so that exposures can be combined over many nights to build spectroscopic depth.  For the fiber system, we seek minimal stresses and motion, as well as tight angular tolerances at the focal plane and pseudoslit. These should contribute continuum systematics at much less than the 0.1\% level (Bundy et al., in prep).  For the fixed and mounted spectrographs, an enclosure provides temperature control of $\pm 1$C and the refractive-camera designs limit ghosts and scattered light.  Attention to detectors, amplifiers, and electronics is also important.  In addition, our analysis of SDSS-IV/MaNGA data emphasizes the importance of fiber-to-fiber uniformity along the pseudoslit in order to make the instrument response of all fibers (those dedicated to blank sky, calibration targets, or science targets) as similar as possible.  
+
+The importance of precise calibrations for FOBOS has motivated a comprehensive strategy that combines daytime dome-screen observations with nighttime ``internal'' calibrations at regular intervals.\footnote{Keck does not support dome calibrations at night.}  In the afternoon, flat-field and arc-line exposures are first taken through the telescope of a carefully-illuminated interior dome screen.  This provides the ``true'' instrument flat-field and wavelength solution.  Internal calibrations are then taken by rotating the fold mirror to accept light from a ``pupil-injection'' system included in the focal-plane module (Fig.~\ref{fig:layout}).  This secondary calibration system includes separate lamps, a structure diffuser screen, and a 1 m diameter commercial Fresnel lens that act to mimic the telescope pupil.  While not designed to be as flat as the dome-screen observations, the secondary calibration will be \emph{stable}.  Reference to the simultaneous dome-screen calibration can be used to solve for a ``flat'' internal calibration.  At night, changes in instrument stability owing to temperature or fiber state can be corrected through regular internal calibration exposures, as often as hourly, depending on the observing program's requirements.  Use of the sky background through a model of the instrument$+$sky$+$calibration response provides a final step in the calibration process.  High flux densities will be achieved with the calibration sources, enabling useful exposures times of $\sim$10 seconds.  Thus, internal calibrations can be completed in 2--5 minutes and automated to occur, e.g., during telescope slews, to reduce overheads.
+
+% Do we want a short paragraph concerning sky subtraction?  I.e, what does the above buy us assuming 100-200 sky fibers?
+
+Following \citet{yan16}, in most modes FOBOS will deploy $\sim$12 7-fiber ``mini-bundles'' to observe Milky Way F sub-dwarfs in the field-of-view appropriate for simultaneous spectrophotometric ``flux'' calibration.  Accounting for both transparency and PSF-induced aperture losses, this method will provide a relative flux precision of 3--5\% across the FOBOS wavelength range in routine observations.
+%, as demonstrated by existing instruments.
+
+\begin{figure}[h!]
+\vskip -0.1in
+\includegraphics[width=\textwidth]{figs/Spec_and_UVcam_v1.pdf}
+\caption{\small {\it Left}: Spectrograph optical design. {\it Right}: UV channel camera design.}
+\label{fig:spec}
+\end{figure}
+
+\subsection{Spectrographs}
+
+FOBOS employs three identical spectrographs mounted adjacent to the focal-plane module on the Keck II Nasmyth deck and fed by a short ($<$15 m) fiber run in order to preserve UV throughput.  Each spectrograph accepts 600 fibers with 175 $\mu$m core diameter and ${\rm NA} = 0.11$.  Fibers are glued into v-groove blocks mounted on in-beam pseudoslits.  The expanding output beam strikes a collimating mirror with $F_{\rm coll} = 630$ mm. A series of dichroics divide the 140 mm diameter collimated beam into four wavelength channels with a combined, instantaneous spectral range of 0.31--1 $\mu$m. High-efficiency fused-silica etched (FSE) gratings \citep{ZeitnerFSE} provide mid-channel spectral resolutions of $R \sim 3500$.  Each channel employs f/2.25 refractive cameras with $F_{\rm cam} = 315$ mm using designs based on the optical prescription of the f/1.7 DESI cameras and optimized for the channel’s bandwidth.  For the bluest wavelength channel (310--415 nm), the DESI design and glass choice has been modified for performance at these UV wavelengths (Fig.~\ref{fig:spec}).  Using 6k$\times$6k CCDs with 15 $\mu$m pixels for each channel, the demagnified diameter of a monochromatic fiber spot is sampled by 5.7 pixels. Taking advantage of the fixed spectral format, our design makes use of anti-reflective detector coatings applied with a spatial gradient to optimize performance at the wavelength associated with each CCD row. With on-chip binning that modestly oversamples the monochromatic fiber spot, we expect exposures to be background limited at the blue edge of FOBOS's spectral range with a 10-min integration.
+
+% We don't talk about vendors at all, but interesting question from John Wilson: "Regarding the DESI cameras, is there any requirement, perhaps due to intellectual property rights, that FOBOS cameras will need to be fabricated by Winlight?"
+
+The spectrographs are mounted in a permanent temperature-controlled housing, providing a stable environmental temperature ($\pm$1C). Heat rejection of electronics components in the dome is done through a glycol cooling loop. Cyrogenic cooling of the science detectors will be provided by liquid N$_2$ (LN2) or closed-cycle coolers. The estimated end-to-end instrument throughput peaks at 60\% and is greater than 30\% over 95\% of the combined bandpass.
+
+\subsection{Risks}
+
+Our risk register tracks risks associated with every WBS and subsystem.  The three highest risk areas are: 1) the performance (uniformity and stability) of our calibration system and procedures as well as overall ability to maintain high throughput at UV wavelengths, 2) the Starbugs positioning system, 3) the micro-assembly fore-optics, specifically the process control for their manufacturing, assembly, and alignment.  Our Preliminary Design plan features specific work designed to detail and develop mitigation strategies in these areas, as well as for all risk items that are classified as potentially severe or likely.
+%\note{should we list any of these?}
+
+\subsection{Upgrade Paths}
+\label{sec:upgrades}
+
+FOBOS's ability to easily deploy and exchange different fiber collectors on the focal plane opens exciting upgrade paths.  These include deploying fibers feeding future spectrographs, e.g., with $R \sim 20,000$ spectral resolution or near-IR sensitivity, to the FOBOS focal plane.   Another is taking advantage of ground-layer adaptive optics (GLAO) corrections from an anticipated GLAO system at Keck II. GLAO improves depth, enables crowded source targeting, and opens new science territory through spatially-resolved galaxies beyond $z\sim0.5$. Particularly for the latter, we would expect to deploy an IFU mode that critically sampled the improved GLAO PSF.
+
+
+% \noindent \textbf{Data Management System.} FOBOS requires a robust software suite 
+% to handle observational planning, data collection, processing, and serving. An API (Application Programming Interface)
+% communicates between the following major sub-systems. {\it The Doctor}: A database of metadata and performance metrics,
+% as well as analysis software, to monitor instrument health and predict performance. {\it The Producer}: Planning,
+% simulation, and execution of integrated, multiple-pointing observing programs based on {\it MAISTRO}\footnote{MAISTRO:
+% Modular Artificial Intelligence System for Target Reallocation and Observing.}, an ``artificial intelligence'' (AI)
+% targeting system that will learn optimization strategies for user-controlled and multi-program target assignment. {\it The Accountant}: A data-reduction pipeline with
+% runtime options for both quick-look and science-ready reductions. {\it The Alchemist}: Automated derivation of
+% high-level data products (e.g., redshifts). {\it The Curator}: An archive of all data and data products as well as a
+% dynamic interface and science platform for visualization and analysis.  \note{All: Now that we have to provide a separate document for this, can we remove this section and just reference the Data Management Plan here and/or somewhere else in the text; e.g., Section 2?}
+% 
+% \note{Yuan-Sen: currently, myself included, there is a strong interest to also merge The Doctor with The Producer, i.e., forecasting seeing using time series metadata. The same for The Accountant/Alchemist. With automated quick analysis pipeline, one could adjust S/N requirement and exposure on the fly. I wonder if we should expand our imagination of AI beyond The Producer. Basically, most of these can be wrapped under AI and optimized over (and it is really not that far fetch).} 
+
+% \noindent \textbf{MAISTRO: Target Allocation with Artificial Intelligence} Powered by Starbugs fiber positioners, FOBOS will enable fast, dynamic
+% reallocation of fibers.  To efficiently determine the best options given
+% a wide range of possible targets and desired observing outcomes, we will
+% develop a preliminary design for MAISTRO\footnote{MAISTRO: Modular
+% Artificial Intelligence System for Target Reallocation and Observing.}
+% an ``artificial intelligence'' (AI) targeting system that will learn
+% optimization strategies for assigning targets from a database of
+% overlapping observing programs with pre-defined priorities.  The AI
+% package will aggregate data quality using a quick-look reduction
+% package, science-driven performance metrics, {\it and real-time
+% assessments of the observing conditions} to make dynamic targeting
+% recommendations.  For example, if conditions are slightly less than
+% optimal, MAISTRO would reconfigure Starbugs to brighter objects in a
+% field or implement a different program prioritization.  MAISTRO will
+% incorporate updated target lists and priorities from the active observer
+% and could easily be over-ridden at any time.   Fractions of the full
+% FOBOS multiplex might also be reserved ``manual targeting'' as required
+% by the program PI.  
+
+%   - maintains a database with observational progress on individual
+%     targets in the survey and
+%   - dynamically reallocates fibers based on real-time assessments of
+%     the aggregate S/N of each target to meet the specific need of each
+%     science case.
+
+% This requires significant design and testing of a combined software
+% package and hardware interface.  Specific considerations involve (1)
+% fast and robust reduction procedures (cf. MaNGA DOS) that can assess
+% the aggregate data and (2) a responsive database with a schema
+% optimized for real-time decision making to select targets for
+% (re)acquisition while accounting for collision limitations.  Provided
+% enough design effort, this lends itself to a machine-learning
+% application.
+
+\section{Broader Impacts and Student Training}
+\label{sec:bi}
+
+Successful community engagement in \hawaii\ is critical to the future of astronomy on Maunakea.  For this reason, we have made expanded support of the successful \textbf{Akamai Internship Program} a top priority, with a specific allocation in our budget. Led by the Institute for Scientist and Engineer Educators (ISEE) at UCSC, the Akamai Internship Program is advancing 20 college students from \hawaii\ per year into the STEM workforce with a nearly 90\% success rate \citep{asee_peer_31030}.  Many end up working for Maunakea observatories and engage in community discussions regarding astronomy on the Big Island.  With nearly half of its funding coming from TMT and TMT's location uncertain, Akamai's long-term future is in jeopardy.  Our funding request helps ensure that Akamai continues and ideally expands by supporting eight Akamai interns during the proposal period.\footnote{Kupke, MacDonald, and Westfall have all mentored Akamai interns at UCO, including one who helped build a fiber test-bench at UCSC during Summer 2018.} Building on already strong links between Akamai, WMKO, and UCO, these students will engage with fiber testing and performance analysis. The optomechanical design of the CLADC and related motion systems is a second defined project.  Other projects include spectrograph design and component prototyping (e.g., gratings), as well as work on the software infrastructure of the data-management systems.  This final project is an opportunity to engage students from \hawaii\ working in computer science, data science, and artificial intelligence.  With a greater focus on hardware in the past, this data-science connection opens a new aspect of the Akamai program. 
+
+At the graduate level, in addition to opportunities for student training at all FOBOS partner institutions, we will use FOBOS design work as the basis for building real-world teaching skills that are often overlooked in graduate training. With guidance from ISEE, who has developed similar programs, we will organize four ``professional development projects'' (PDPs) for each of two students in both 2021 and 2022.  Aimed at first- and second-year graduate students at FOBOS institutions, participating students conceive, develop, and test learning activities that culminate in FOBOS-related lab exercises run with undergraduates.  These activities might involve testing and characterization of optical components, design tasks, or software development and testing.  In addition to an exciting educational experience for the undergraduates, these projects provide leadership experience, enhance technical expertise, and offer teacher training for the graduate students.
+
+In all of our student-focused activities, we seek to engage students from under-represented backgrounds.  For example, at UCSC, undergraduates who participate in our PDPs will come from the highly-successful \textbf{Lamat Program} which fosters transfers of students from minority-serving California community colleges to University of California.  At UW, these programs will inspire projects for the Pre-Major in Astronomy Program, \textbf{Pre-MAP}.  The materials students develop will also form the basis of teaching activities in hands-on research courses, such as UCSC's \textbf{ASTR-9 course}.  Both Pre-MAP and ASTR-9 introduce scientific methods with a focus on serving underrepresented groups. PI Bundy, co-PI Westfall, and team member Williams have served as research mentors in these programs.
+
+% Calbridge UCLA
+
+% Workshops for Rubin/FOBOS cross-catalog data usage
+
+Finally, we will translate the learning activities, engagement materials, and enthusiasm developed in the programs above into projects for UCSC's {\bf Science Internship Program} (SIP) beginning summer 2021.  The core mission of SIP is to engage bright, motivated high school students in critical thinking through open-ended frontier STEM projects under the mentorship of graduate students, postdocs, research staff, and faculty.  SIP continues to grow, with 215 interns from around the world enrolled in its 2020 (now online-only) session.  About 30\% of SIP interns receive 100\% scholarships and 40\% of the SIP interns are underserved: low income students, students of color, and/or first-generation college aspirants.
+
+
+\section{Project Management}
+\label{sec:mng}
+
+% \begin{figure}[h!]
+% \vskip -0.1in
+% \includegraphics[width=\textwidth]{figs/Pre-Proposal_Project_figure.jpg}
+% \caption{\small Microsoft Project plan WBS and schedule.}
+% \label{fig:gantt}
+% \end{figure}
+
+\begin{wrapfigure}{r}{0.54\textwidth}%\small
+\includegraphics[width=0.54\textwidth]{figs/org_chart_v5.png}
+\caption{Management structure.}
+\label{fig:org}
+\end{wrapfigure}
+
+To maximize synergy with LSST and WFIRST observations, we have established an aggressive schedule with first-light in 2028.  We envision a partial Preliminary Design Review in 2022 followed by a subsequent MSIP request that year for Final Design funding. Other private and future NSF solicitations (e.g., MSRI in 2023), in addition to funding from our Australian partners, provide opportunities to complete the FOBOS design and initial construction phases.  FOBOS design elements leverage heritage from other instruments wherever possible (e.g., DESI fiber system and cameras, AAO Starbugs), but also includes unique and innovative design elements, such as its UV coverage, focal-plane fore-optics, multiplexed IFUs, and data systems, which require significant engineering and design effort.  Our Preliminary Design budget request (\$6.2M) reflects 26.1 FTE and accounts for $\sim$20\% of the projected total instrument cost.
+
+% Our Preliminary Design budget includes XXX FTE and accounts for $\sim$20\% of the projected total instrument cost.
+
+Our management structure is presented in Figure \ref{fig:org} where the  project and science-team leadership are denoted with blue and orange boxes, respectively.  The PI, K.~Bundy, has served as PI for the successful SDSS-IV MaNGA project and for TMT-WFOS, though he is stepping down from WFOS in June 2020. N.~MacDonald, FOBOS Project Manager, brings experience from having this role in SDSS-IV MaNGA and APOGEE-S.  K.~Westfall (Project Scientist) is MaNGA's deputy PI and leads its data analysis effort.  FOBOS's ``front-end'' Instrument Scientist (IS), C.~Poppett oversees the focal plane and fibers and is also the Lead Fiber Scientist for DESI.  R.~Kupke, the ``back-end'' IS, leads optical design for Keck-LIGER and TMT-IRIS and will oversee the FOBOS spectrograph, cryostat, and detector design.  
+
+While COVID-19 restrictions pose challenges, this proposal focuses on design efforts that are well suited to team members working remotely.  In fact, we have significant experience in distributed work and collaboration models.  During MaNGA's design, construction, and first years of operation, each member of the leadership team was located at a separate institution, some international.  We developed and honed tools to support communication and track progress that are immediately applicable to the reality of COVID-19.  In addition, UCO has successfully hired and managed employees and contractors who are not resident in Santa Cruz.  Such flexibility allows a nimble response to changing work scenarios.
+
+Our project management controls framework builds from low-level task lists for each WBS element to an integrated resource-loaded project plan.  Tracking is done using an MS Project plan, which allows us to reconcile schedule, cash flow, and earned value on a quarterly basis. Project leads at each participating institution maintain individual schedules and budgets and report progress to the Project Manager. As appropriate for a design-only proposal, no contingency funding has been requested.  
+
+\section{Results from Prior NSF Support}
+
+\noindent {\bf PI Bundy} was awarded \$290,536 over the period 08/31/2018--8/31/2021 for NSF Award Number 1816388, titled ``Red Geyser Galaxies and the Suppression of Star Formation.''
+
+\noindent\emph{Intellectual Merit.} This project studies a new class of early-type galaxy
+called ``Red Geysers'' thought to host large-scale, AGN-driven winds.  The goal is understanding whether these winds
+act to suppress late-time star formation.  Results include: (1) Confirmation that optically-selected red geysers from
+SDSS-IV MaNGA have associated radio indications of AGN activity \citep{roy18}. (2) Obtaining Keck ESI data of 2 red
+geysers to reveal asymmetric velocity profiles of strong emission lines in support of our wind interpretation.  A draft
+publication is complete and being reviewed by collaborators.
+
+\noindent\emph{Broader Impacts.} Benefits include training of a UCSC graduate student (Namrata Roy) and an
+undergraduate student (Marina Huang).  The analysis uses shareable python jupyter notebooks which double as learning materials for 1st-year undergraduates in UCSC's ASTR-9 course.  Many students in this
+course are from under-represented backgrounds.  Our goal is to post these wind modeling notebooks on a
+public repository associated with the MaNGA Marvin ecosystem.
+
+\noindent\emph{Publications.} \citet{roy18} (see References Cited) and Roy et al.~2020 (in preparation).
+
+\medskip
+
+\noindent {\bf Co-PI Westfall} has no NSF awards to report.  
+
+
+% The purpose of this section is to assist reviewers in assessing the quality of prior work conducted with current or prior NSF funding. If any PI or co-PI identified on the proposal has received NSF support with a start date in the past five years (including any current funding and no cost extensions), information on the award is required for each PI and co-PI, regardless of whether the support was directly related to the proposal or not. In cases where the PI or any co-PI has received more than one award (excluding amendments to existing awards), they need only report on the one award that is most closely related to the proposal. Support includes not just salary support, but any funding awarded by NSF. NSF awards such as standard or continuing grants, Graduate Research Fellowship, Major Research Instrumentation, conference, equipment, travel, and center awards, etc., are subject to this requirement.
+
+% The following information must be provided:
+
+% (a)	the NSF award number, amount and period of support;
+
+% (b)	the title of the project;
+
+% (c)	a summary of the results of the completed work, including accomplishments, supported by the award. The results must be separately described under two distinct headings: Intellectual Merit and Broader Impacts;
+
+% (d)	a listing of the publications resulting from the NSF award (a complete bibliographic citation for each publication must be provided either in this section or in the References Cited section of the proposal); if none, state ï¿½No publications were produced under this award.ï¿½
+
+% (e)	evidence of research products and their availability, including, but not limited to: data, publications, samples, physical collections, software, and models, as described in any Data Management Plan; and
+
+% (f)	if the proposal is for renewed support, a description of the relation of the completed work to the proposed work.
+
+% If the project was recently awarded and therefore no new results exist, describe the major goals and broader impacts of the project. Note that the proposal may contain up to five pages to describe the results. Results may be summarized in fewer than five pages, which would give the balance of the 15 pages for the Project Description.
+
+% FOBOS has a detailed Project Management Plan (PEP) which follows guidelines outlined in Section 3 of the NSF Major Facilities Guide (NSF 19-XX Dec 2018).  The PEP is outlined at Level 1 for this pre-proposal.  Level one PEP outlines is as follows; 1. Introduction, 2.  Organization, 3.  Design and Development, 4.  Contraction project definition, 5.  Staffing, 6.  Risk and Opportunity Management, 6.  Systems Engineering, 7.  Configuration and Controls, 8.  Acquisitions, 9.  Project Management Controls, 10.  Site and Environment, 11.  Cyber-infrastructure, 12.  Environmental Safety and Health Plans, 13.  Reviews and Reporting, 14.  Commissioning, 15.  Project Closeout plan
+
+% Project management controls for this and future project phases is accomplished by low level task lists which are used to develop resource loaded schedules for determining both cost and duration.  This ‘bottom up’ approach allows for a detailed accounting of project cost and cash flow.  It allows for in process tracking trough earned value reporting, earned value will be calculated a minimum quarterly or when deemed necessary by the Project Manager.  Each sub-award institution is responsible for maintaining their own schedule and budget as well as reported earned value to the Project Manager.  A detailed Work Breakdown and Product Breakdown structure is in place to insure clear understand scope of delivered work and to insure well documented interfaces between systems.
+
+% Contingency for this proposal, funding of preliminary design, is set at 20\%.  As the project develops the contingency on future work and equipment will be set using a combination of basis of estimate and associated risk.  The process for contingency estimation is included in the detailed PEP.
+
+
+\newpage
+
+\setcounter{page}{1}
+\bibliographystyle{nsf.bst}
+%\bibliographystyle{jponew.bst}
+\bibliography{references}
+
+\end{document}
+
+

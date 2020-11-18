@@ -1,0 +1,223 @@
+
+\documentclass[oneside,11pt]{amsart}
+
+\usepackage{graphicx}
+\usepackage{natbib,latexsym,url,enumitem,pdfpages}
+\usepackage{color}
+\usepackage{wrapfig}
+\usepackage{caption}
+
+% Some fancy commenting
+\definecolor{todo}{RGB}{200,0,0}
+\newcommand{\comment}[2][todo]{{\color{#1}[[{\bf #2}]]}}
+
+\pretolerance=10000
+\textwidth=6.4in
+\textheight=8.95in
+\voffset = 0.in
+\topmargin=0.0in
+\headheight=0.00in
+\hoffset = 0.0in
+\headsep=0.00in
+\oddsidemargin=0in
+\evensidemargin=0in
+\parindent=2em
+\parskip=0.2ex
+ 
+\renewcommand{\baselinestretch}{1.03}
+
+\special{papersize=8.5in,11in}
+
+\newcommand{\markus}{\textcolor{green}}
+
+\setlength{\parskip}{0.6 ex plus 0.4ex minus 0.2ex} \flushbottom
+\pagestyle{plain} 
+
+\begin{document}
+
+\pagenumbering{arabic}
+
+\begin{center}
+\noindent {\sc Data Management Plan}
+\end{center}
+
+\noindent{\bf High-level Strategy \& Summary}
+
+\smallskip
+
+Delivery of FOBOS to Keck will include a comprehensive software suite
+and data-management protocol that provide observation planning tools,
+real-time and historical instrument-performance metrics, quick-look and
+science-ready data reduction, basic data analysis, and data-product
+query, retrieval, and visualization tools.  These subsystems are
+critical to the efficient use of the instrument and enable a quick
+turn-around from data acquisition to scientific analysis.  All software
+development is open source with software repositories and documentation
+hosted on open platforms (e.g., GitHub, Read the Docs).  FOBOS data will
+be made publicly available after a proprietary period set by Keck
+Observatory (currently 18 months).  Data served will include metadata
+collected by FOBOS's status-monitoring database, raw 2D frames, reduced
+1D and 2D spectra, rectified datacubes for FOBOS integral-field
+observations, and high-level analysis products (e.g., redshift,
+kinematics, emission-line fluxes).  Platforms for queries, web-based
+visualization, and distribution of the data will be developed by the
+instrument data team, the Keck Observatory Archive (KOA), and the
+Community Science and Data Center at NSF’s NOIRLab (MOU pending).  Post
+delivery of the instrument, maintenance and development of FOBOS's
+data-management systems will be performed by Keck Observatory with
+long-term involvement of the instrument data team.
+
+\medskip
+
+\noindent{\bf Primary Subsystems}
+
+The FOBOS data-management system (DMS) is divided into five
+interdependent subsystems and a top-level API (application
+programming interface) that controls cross-subsystem communication.
+Brief concept descriptions are below.
+
+\smallskip
+
+\noindent{\it The Manager:} All DMS subsystems will work within a
+top-level API that provides the common infrastructure and, where needed,
+coordination between these otherwise independent systems.  Specifically,
+the Manager will implement the high-level datamodel and interface of
+each subsystem, as defined by a series of interface control documents
+(ICDs).
+
+\smallskip
+
+\noindent{\it The Doctor:} FOBOS will maintain a database-style
+system that stores and monitors performance metadata. The system will
+be ``active," interfacing with both the operations software and the
+quick-look data-reduction software to provide timely notification of
+system failures, from minor (e.g., dropped Starbugs) to catastrophic
+(e.g., shutter failures). Although periodically archived, the Doctor
+will enable queries of the full historical record of the instrument
+performance, used to continually improve the accuracy of the
+instrument-performance predictions used by the Producer (below) to
+plan observations.
+
+\smallskip
+
+\noindent{\it The Producer:} FOBOS will require a sophisticated
+observation planning software package to enable optimization across
+its three primary observing models: (1) PI-led programs, (2)
+queue-scheduled submissions that are optimally combined in dedicated
+observing blocks, and (3) supplementary objects of interest sourced
+from a prioritized database and assigned to unallocated fibers when
+possible. The Producer has two subsystems: {\bf (1)} {\it The
+Composer} will simulate observed data from individual exposures to
+science-ready data products aggregated over multiple exposures. The
+system will ``execute'' observing programs and provide robust
+estimates of the expected sensitivity for each object observed.
+% Performance predictions will improve over time by leveraging
+% historical metrics provided by {\it the Doctor}.
+The system will provide both nominal calculations for extracted
+spectra, as well as detailed simulation of 2D data from the detector
+that can be passed to the Accountant and the Alchemist, as if it were
+real data. {\bf (2)} {\it MAISTRO} --- Modular Artificial Intelligence
+System for Target Reallocation and Observing --- will provide an
+end-to-end procedure for developing and optimizing multi-pointing
+observational programs. Much more than a target-allocation program,
+MAISTRO will work in concert with the Composer and employ
+machine-learning applications that maximize the overall success of
+the instrument, particularly when combining multiple programs. The
+system will incorporate real-time observing conditions and near-term
+performance of the instrument trained on the Doctor’s database.
+MAISTRO will also provide an API for user-defined algorithms that,
+e.g., specify how targets are prioritized.
+
+\smallskip
+
+\noindent{\it The Accountant:} FOBOS will provide a reliable, automated
+data-reduction pipeline for a set of standard observing modes, as well
+as be flexible to parametrized alterations to its core methods for
+custom modes.  Standard data reductions will include basic image
+processing, spectral extraction, wavelength calibration, sky
+subtraction, and flux calibration.  Output data products will follow a
+standardized and well-documented data model.  Assessment metrics, flags,
+and plots will be produced that allow for a full accounting of the
+provided data quality.  When appropriate, optional stages will be
+executed that reformat IFU data into spectral datacubes.  Finally, the
+Accountant will combine data from multiple observations of an individual
+source as needed for extended integration times.  To enable dynamic
+reallocation of individual fibers, the Accountant will also produce
+quick-look results sufficient for program PIs and Keck support
+astronomers to make reliable, on-the-fly observing decisions.
+
+% Ideally, quick-look reductions will simply be a result of the
+% Accountant working in a mode optimized for speed; however, development
+% paths may need to diverge for the two data-reduction modes given the
+% range of sources that FOBOS will observe and the significant value
+% that these on-the-fly assessments represent.
+
+\smallskip
+
+\noindent{\it The Alchemist:} FOBOS will deliver a data-analysis
+software package that provides high-level, largely model-independent
+measurements.  Each measured quantity will have a quality flag in terms
+of the procedure as a whole (i.e., is the algorithm generally reliable)
+and specific to each measurement (i.e., was the algorithm reliable for
+this spectrum).  The scope of the software package will encompass the
+analysis needs of FOBOS’s Key Programs and be flexible to incorporation
+of contributed analysis modules from the user community. Example
+properties provided by the Alchemist include redshift, emission-line
+fluxes and equivalent widths, stellar atmosphere parameters, and radial
+velocities.
+
+\smallskip
+
+% \noindent{\it The Curator:} FOBOS will provide software and hardware 
+% systems that archive and facilitate broad community access to all FOBOS
+% data --- including all data from planning and site-condition metrics
+% to versioned data-reduction and data-analysis products --- via both
+% ``dynamic'' and ``static'' archives. The dynamic archive will provide a
+% queryable database system, accessed via both a programmatic API and a
+% web-based interface, for high-level interaction with the data.  After
+% identifying a subset of FOBOS data of interest, the static archive will
+% provide a basic software interface and authentication protocol for local
+% downloads.  The dynamic archive will also cross-reference FOBOS data with
+% existing ancillary data sets (e.g., LSST, Euclid, WFIRST) and allow users
+% to upload supplementary products they have derived.  An example
+% workflow might be: (1) plot the spectrum of a specific M31 star; (2) plot
+% its [$\alpha$/Fe] against all FOBOS-observed M31 stars; (3) select and
+% download all calibrated spectra of stars with similar properties.
+
+\noindent{\it The Curator:} FOBOS will provide software and hardware
+systems that archive and facilitate broad community access to all
+FOBOS data, including all metadata from planning and site-condition
+metrics as well as versioned data-reduction and data-analysis
+products (e.g., calibrated spectra, spectral-line measurements,
+velocity maps, etc.). We will maintain both a ``dynamic'' and a
+``static'' archive. The dynamic archive will provide a queryable
+database system, accessed via both a programmatic API and a web-based
+interface, to allow users to perform their own analysis on the
+database server. This tool will include cross-referencing of FOBOS
+data with existing ancillary data sets (e.g., LSST, Euclid, WFIRST)
+and allow users to upload supplementary products they have derived.
+An example workflow might be: (1) plot the spectrum of a specific
+star; (2) plot its [$\alpha$/Fe] against all FOBOS-observed stars;
+(3) select all stars with similar [$\alpha$/Fe] and download a
+catalog of their measured spectral properties from the dynamic
+archive; (4) download the calibrated spectra of the selected stars
+from the static data archive.
+
+\medskip
+
+\noindent{\bf This Proposal}
+
+Specific to this proposal and appropriate to our instrument
+development phase, our current data-management systems are as
+follows: Instrument-design documents and drawings are maintained by
+the PM and two ISs and shared via either Dropbox or our Confluence
+wiki. Early documentation (e.g., our Astro2020 submission) are
+maintained via GitHub repositories and Dropbox. Early instrument
+software (e.g., our preliminary exposure-time calculator) is
+maintained in a public GitHub repository. Dissemination of our
+designs and simulated performance data to the public will be made via
+publications (e.g., SPIE proceedings) and, when appropriate, via open
+access platforms (e.g., arXiv, GitHub).
+
+\end{document}
+
