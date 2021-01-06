@@ -209,7 +209,7 @@ galaxy formation ($z \approx 2$--3), and for understanding the assembly history 
 
 To address this important spectroscopic need, we propose to advance the design of the FOBOS spectroscopic facility so that it is shovel-ready in 2024, ensuring 1st-light in 2029 as Rubin and Roman imaging surveys achieve substantial progress towards their target depths.  FOBOS, the Fiber-Optic Broadband Optical Spectrograph, would deploy on WMKO's Keck II Telescope\footnote{The W.~M.\ Keck Observatory (WMKO) operates the twin 10m Keck Telescopes.} with 1800 fibers across a 20\arcmin\ field and deep sensitivity from 310--1000 nm at $R \sim 3500$.  In several key ways, FOBOS is unique among near-term and proposed future instrument concepts in the next two decades\citep{bundy19}.  It is the \textbf{only instrument capable of reaching the necessary depths of LSST and Roman cosmology samples}.  Its sensitivity, field-of-view, and ability to target high on-sky source densities is ideally matched to dwarf galaxy kinematics in service of the search for dark matter.  Its blue sensitivity and deployable integral-field units (IFUs) are wholly unique capabilities for accessing information-rich UV-optical transitions needed for studies ranging from stellar astrophysics and kilonovae to the high-$z$ circumgalactic medium.  And its targeting flexibility, including multiplexed IFU options, enables large and small programs to be interleaved, offering a powerful resource to the U.S.\ community of users.
 
-FOBOS goes significantly deeper and bluer than Subaru-PFS\footnote{Subaru's Prime Focus Spectrograph (PFS) commissioning in 2022.} or VLT-MOONS and can efficiently target source densities 30 times greater than PFS.  The proposed Mauna Kea Spectroscopic Explorer (MSE) and MegaMapper concepts provide complementary shallower and wider high-multiplex spectroscopy, but they incur the risk of building new telescopes and cost 5--10 times more than FOBOS.  With sensitivity and multiplex optimized for the key science of LSST/Roman, the completed FOBOS instrument will deliver the rough equivalent of \$1B in science return for a total investment of \$30--40M.
+FOBOS goes significantly deeper and bluer than Subaru-PFS\footnote{Subaru's Prime Focus Spectrograph (PFS) commissioning in 2022.} or VLT-MOONS and can efficiently target source densities 30 times greater than PFS.  The proposed Maunakea Spectroscopic Explorer (MSE) and MegaMapper concepts provide complementary shallower and wider high-multiplex spectroscopy, but they incur the risk of building new telescopes and cost 5--10 times more than FOBOS.  With sensitivity and multiplex optimized for the key science of LSST/Roman, the completed FOBOS instrument will deliver the rough equivalent of \$1B in science return for a total investment of \$30--40M.
 
 
 
@@ -758,9 +758,11 @@ steering committee, and board and will be informed by proposals for the 30 night
 \label{fig:layout}
 \end{figure}
 
-\noindent The current conceptual designs for all FOBOS sub-systems are briefly described in the following subsections and summarized in Table \ref{tab:specsummary}.  For each subsystem, we also comment on its technical maturity and heritage, where appropriate.  The work we propose here would advance all design elements, including the operational, software, and systems architecture, to the level expected for a Preliminary Design Review (PDR) in 2022.  While a portion of the work requires lab testing (e.g., fore-optics), progress on most work-packages in this phase can proceed with FOBOS team members working remotely, making COVID-19 disruptions minimal.
+\noindent The current conceptual designs for all FOBOS sub-systems are briefly described in the following subsections. % and summarized in Table \ref{tab:specsummary}.
+For each subsystem, we also comment on its technical maturity and heritage, where appropriate.  The work we propose here would advance all design elements, including the operational, software, and systems architecture, to the level expected for a Preliminary Design Review (PDR) in 2022.  While a portion of the work requires lab testing (e.g., fore-optics), progress on most work-packages in this phase can proceed with FOBOS team members working remotely, making COVID-19 disruptions minimal.
 
-The Final Design Phase, including prototyping and initial hardware procurements, would begin after PDR and would be funded through subsequent proposals and partnership agreements (see \S\ref{sec:mng}).  While grounded in design heritage from previous instruments, FOBOS features several innovations including a horizontal focal plane, the use of Starbugs with either single-fiber or IFU payloads that enable various observing modes, and the use of high-efficiency fused silica etched (FSE) gratings in all spectrograph channels.
+The Final Design Phase, including prototyping and initial hardware procurements, would begin after PDR and would be funded through subsequent proposals and partnership agreements (see PEP outline). % \S\ref{sec:mng}).
+While grounded in design heritage from previous instruments, FOBOS features several innovations including a horizontal focal plane, the use of Starbugs with either single-fiber or IFU payloads that enable various observing modes, and the use of high-efficiency fused silica etched (FSE) gratings in all spectrograph channels.
 
 \subsection{Focal-Plane Module} The focal-plane module comprises several key systems held in a rolling frame that can be pulled back and stowed, maintaining exchangeable access of multiple instruments to the Keck II Nasmyth port (Fig.~\ref{fig:layout}).  FOBOS's focal-plane module includes the compensating lateral atmospheric dispersion compensator (CLADC), the focal plate and Starbugs positioners, the metrology and calibration systems, and the cable wrap and tray.
 
@@ -829,7 +831,9 @@ We are currently prototyping microlens optics and optomechanical assemblies for 
 \subsubsection{Starbugs Robotic Positioners}
 \label{sec:starbugs}
 
-FOBOS's flexible focal plane is enabled by Starbug positioners (Fig.~\ref{fig:starbugs}), which unlike fixed-grid zonal positioners, can be deployed with both single-fiber and IFU payloads on the same focal plane.  Starbugs not only allow for multiple observing modes, but have multiple overlapping patrol zones and are efficient for both sparse and dense field configurations.  Although switching between deployed modes is currently envisioned to be a daytime procedure, more dynamic, night-time switches will be studied in the next phase.
+% KBW: I added a short clause to justify partnership with AAO
+
+FOBOS's flexible focal plane is enabled by Starbug positioners (Fig.~\ref{fig:starbugs}), a technology developed exclusively by AAO\footnote{Australian Astronomical Optics (AAO), formerly Australian Astronomical Observatory.} and now successfully deployed by the TAIPAN instrument.\footnote{TAIPAN, consisting of its fiber-positioning system and spectrograph, deploys 150 Starbugs on the focal plane of the UK Schmidt Telescope at Siding Spring Observatory (NSW, AU).}  Unlike fixed-grid zonal positioners, Starbugs can be deployed with both single-fiber and IFU payloads on the same focal plane.  Starbugs not only allow for multiple observing modes, but have multiple overlapping patrol zones and are efficient for both sparse and dense field configurations.  Although switching between deployed modes is currently envisioned to be a daytime procedure, more dynamic, night-time switches will be studied in the next phase.
 
 Starbugs are composed of two concentric cylinders with the payload (single-fiber or IFU) secured in the center. Starbugs can be precisely rotated and ``walked'' across the focal plate using specific high voltage waveforms applied to the piezo actuators of both cylinders. A vacuum seal holds the Starbugs against the plate. FOBOS's horizontal focal plane prevents Starbugs adhesion loss and allows for smaller, more agile designs that are aided by gravity to stay correctly mounted. Precision positioning is made possible by a metrology system that uses three cameras installed in the support structure of the CLADC to image the bottom face of the focal plate through the fold mirror. Three back-illuminated beacon fibers located in the outer ring of each Starbug allow the system to locate and determine the orientation of each Starbug.
 
@@ -839,7 +843,7 @@ Starbugs are composed of two concentric cylinders with the payload (single-fiber
 %\label{fig:starbugs_error}
 %\end{wrapfigure}
 
-Starbugs can patrol regions several arcminutes in diameter and can be placed as close as 10\arcsec{}. The reconfiguration time goal is 2 minutes. AAO\footnote{Australian Astronomical Optics (AAO), formerly Australian Astronomical Observatory.} is currently testing Starbugs on-sky as part of commissioning the TAIPAN instrument,\footnote{TAIPAN, consisting of its fiber-positioning system and spectrograph, deploys 150 Starbugs on the focal plane of the UK Schmidt Telescope at Siding Spring Observatory (NSW, AU).} which has been delayed due to problems unrelated to Starbugs. A number of lessons-learned from the Starbug technology development as part of the TAIPAN instrument are already incorporated into the FOBOS conceptual design.  This experience also informs the Preliminary Design Phase work, including enhanced instrument modularity, ``slipper'' ring design and materials studies, and electronics upgrades.
+Starbugs can patrol regions several arcminutes in diameter and can be placed as close as 10\arcsec{}. The reconfiguration time goal is 2 minutes. AAO is currently testing Starbugs on-sky as part of commissioning the TAIPAN instrument, which has been delayed due to problems unrelated to Starbugs. Our partnership with AAO has already benefited the FOBOS conceptual design, driven by the experience with development and deployment of Starbugs on TAIPAN.  This experience also informs the Preliminary Design Phase work proposed here, including enhanced instrument modularity, ``slipper'' ring design and materials studies, and electronics upgrades.
 
 Starbugs assembly, verification, and test processes have been developed and refined over several years. These tests, along with the data from continuous lifetime tests (equivalent to greater than 5 years of instrument operations), show that only minor and infrequent calibration is needed to maintain successful closed-loop positioning. With a small step size, exquisite positioning accuracy for Starbugs has been demonstrated; positioning accuracy is typically better than 7 $\mu$m for TAIPAN, which is equivalent to 0.01\arcsec{} for FOBOS and well below our requirements  (Fig.~\ref{fig:starbugs}). 
 %(Fig.~\ref{fig:starbugs_error}). 
@@ -942,6 +946,12 @@ The spectrographs are mounted in a permanent temperature-controlled housing, pro
 \section{Broader Impacts and Student Training}
 \label{sec:bi}
 
+
+% KBW Notes:
+%   - Is this phrasing out of date: "With nearly half of its funding
+% coming from TMT"?  I.e., should we make it more clear that TMT is
+% no longer funding the program?
+
 Successful community engagement in \hawaii\ is critical to the future of astronomy on Maunakea.  For this reason, we have made expanded support of the successful \textbf{Akamai Internship Program} a top priority, with a specific allocation in our budget. Led by the Institute for Scientist and Engineer Educators (ISEE) at UCSC, the Akamai Internship Program is advancing 20 college students from \hawaii\ per year into the STEM workforce with a nearly 90\% success rate \citep{asee_peer_31030}.  Many end up working for Maunakea observatories and engage in community discussions regarding astronomy on the Big Island.  With nearly half of its funding coming from TMT and TMT's location uncertain, Akamai's long-term future is in jeopardy.  Our funding request helps ensure that Akamai continues and ideally expands by supporting eight Akamai interns during the proposal period.\footnote{Kupke, MacDonald, and Westfall have all mentored Akamai interns at UCO, including one who helped build a fiber test-bench at UCSC during Summer 2018.} Building on already strong links between Akamai, WMKO, and UCO, these students will engage with fiber testing and performance analysis. The optomechanical design of the CLADC and related motion systems is a second defined project.  Other projects include spectrograph design and component prototyping (e.g., gratings), as well as work on the software infrastructure of the data-management systems.  This final project is an opportunity to engage students from \hawaii\ working in computer science, data science, and artificial intelligence.  With a greater focus on hardware in the past, this data-science connection opens a new aspect of the Akamai program. 
 
 At the graduate level, in addition to opportunities for student training at all FOBOS partner institutions, we will use FOBOS design work as the basis for building real-world teaching skills that are often overlooked in graduate training. With guidance from ISEE, who has developed similar programs, we will organize four ``professional development projects'' (PDPs) for each of two students in both 2021 and 2022.  Aimed at first- and second-year graduate students at FOBOS institutions, participating students conceive, develop, and test learning activities that culminate in FOBOS-related lab exercises run with undergraduates.  These activities might involve testing and characterization of optical components, design tasks, or software development and testing.  In addition to an exciting educational experience for the undergraduates, these projects provide leadership experience, enhance technical expertise, and offer teacher training for the graduate students.
@@ -960,27 +970,27 @@ At the graduate level, in addition to opportunities for student training at all 
 
 % ------------------------------------------------------2020-12-04
 
-\section{Project Management}
-\label{sec:mng}
+% \section{Project Management}
+% \label{sec:mng}
 
-% \begin{figure}[h!]
-% \vskip -0.1in
-% \includegraphics[width=\textwidth]{figs/Pre-Proposal_Project_figure.jpg}
-% \caption{\small Microsoft Project plan WBS and schedule.}
-% \label{fig:gantt}
-% \end{figure}
+% % \begin{figure}[h!]
+% % \vskip -0.1in
+% % \includegraphics[width=\textwidth]{figs/Pre-Proposal_Project_figure.jpg}
+% % \caption{\small Microsoft Project plan WBS and schedule.}
+% % \label{fig:gantt}
+% % \end{figure}
 
-\begin{wrapfigure}{r}{0.54\textwidth}%\small
-\includegraphics[width=0.54\textwidth]{figs/org_chart_v5.png}
-\caption{Management structure.}
-\label{fig:org}
-\end{wrapfigure}
+% \begin{wrapfigure}{r}{0.54\textwidth}%\small
+% \includegraphics[width=0.54\textwidth]{figs/org_chart_v5.png}
+% \caption{Management structure.}
+% \label{fig:org}
+% \end{wrapfigure}
 
-To maximize synergy with LSST and Roman observations, we have established an aggressive schedule with first-light in 2028.  We envision a partial Preliminary Design Review in 2022 followed by a subsequent MSIP request that year for Final Design funding. Other private and future NSF solicitations (e.g., MSRI in 2023), in addition to funding from our Australian partners, provide opportunities to complete the FOBOS design and initial construction phases.  FOBOS design elements leverage heritage from other instruments wherever possible (e.g., DESI fiber system and cameras, AAO Starbugs), but also includes unique and innovative design elements, such as its UV coverage, focal-plane fore-optics, multiplexed IFUs, and data systems, which require significant engineering and design effort.  Our Preliminary Design budget request (\$6.2M) reflects 26.1 FTE and accounts for $\sim$20\% of the projected total instrument cost.
+% To maximize synergy with LSST and Roman observations, we have established an aggressive schedule with first-light in 2028.  We envision a partial Preliminary Design Review in 2022 followed by a subsequent MSIP request that year for Final Design funding. Other private and future NSF solicitations (e.g., MSRI in 2023), in addition to funding from our Australian partners, provide opportunities to complete the FOBOS design and initial construction phases.  FOBOS design elements leverage heritage from other instruments wherever possible (e.g., DESI fiber system and cameras, AAO Starbugs), but also includes unique and innovative design elements, such as its UV coverage, focal-plane fore-optics, multiplexed IFUs, and data systems, which require significant engineering and design effort.  Our Preliminary Design budget request (\$6.2M) reflects 26.1 FTE and accounts for $\sim$20\% of the projected total instrument cost.
 
 % Our Preliminary Design budget includes XXX FTE and accounts for $\sim$20\% of the projected total instrument cost.
 
-Our management structure is presented in Figure \ref{fig:org} where the  project and science-team leadership are denoted with blue and orange boxes, respectively.  
+% Our management structure is presented in Figure \ref{fig:org} where the  project and science-team leadership are denoted with blue and orange boxes, respectively.  
 
 % ------------------------------------------------------2020-12-04
 % ---- 2020-12-04 Commented for Draft Fastlane Upload for OSP ----
